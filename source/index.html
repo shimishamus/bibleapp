@@ -272,6 +272,8 @@ class Component extends DCLogic {
     try{ this.lastRead=JSON.parse(localStorage.getItem('hb_lastread')||'null'); }catch(e){}
     this.loadText(this.state.book); this.loadDaily(); this.loadAllText();
     document.addEventListener('copy', this.onCopy);
+    document.addEventListener('touchstart', this.swipeStart, {passive:true});
+    document.addEventListener('touchend', this.swipeEnd, {passive:true});
     try{ const th=JSON.parse(localStorage.getItem('hb_theme')||'null'); if(th){ this.setState({light:!!th.light,theme:th.theme||'normal'}); } }catch(e){}
     this.applyThemeColor();
     this.startUsageTimer();
@@ -335,6 +337,8 @@ class Component extends DCLogic {
   gem(n){ const u=['','א','ב','ג','ד','ה','ו','ז','ח','ט'],t=['','י','כ','ל','מ','נ','ס','ע','פ','צ'],h=['','ק','ר','ש','ת']; let s=''; let x=n; s+=h[Math.floor(x/100)]||''; x%=100; if(x===15)s+='טו'; else if(x===16)s+='טז'; else { s+=t[Math.floor(x/10)]||''; s+=u[x%10]||''; } return s||'א'; }
   gershayim(n){ const s=this.gem(n); return s.length===1? s+'׳' : s.slice(0,-1)+'״'+s.slice(-1); }
 
+  swipeStart=(e)=>{ if(this.state.screen!=='reading')return; const t=e.touches&&e.touches[0]; if(!t)return; if(!(e.target&&e.target.closest&&e.target.closest('#readbody')))return; this._sx=t.clientX; this._sy=t.clientY; this._st=Date.now(); };
+  swipeEnd=(e)=>{ const t=e.changedTouches&&e.changedTouches[0]; if(!t||this._sx==null)return; const dx=t.clientX-this._sx, dy=t.clientY-this._sy, dt=Date.now()-this._st; this._sx=null; if(dt>700)return; if(Math.abs(dx)<55||Math.abs(dx)<Math.abs(dy)*1.4)return; const st=this.state; const maxCh=this.bookChapters(st.book); if(dx<0){ if(st.chapter<maxCh)this.setState({chapter:st.chapter+1,bmAdd:false,sheet:null}); } else { if(st.chapter>1)this.setState({chapter:st.chapter-1,bmAdd:false,sheet:null}); } };
   bookHe(id){ for(const k in this.SEC){ const f=this.SEC[k][1].find(b=>b[0]===id); if(f)return f[1]; } return id; }
   bookChapters(id){ for(const k in this.SEC){ const f=this.SEC[k][1].find(b=>b[0]===id); if(f)return f[2]; } return 1; }
   sectionOf(id){ for(const k in this.SEC){ if(this.SEC[k][1].some(b=>b[0]===id))return k; } return 'torah'; }
