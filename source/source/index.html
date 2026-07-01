@@ -339,7 +339,7 @@ class Component extends DCLogic {
   gershayim(n){ const s=this.gem(n); return s.length===1? s+'׳' : s.slice(0,-1)+'״'+s.slice(-1); }
 
   swipeStart=(e)=>{ if(this.state.screen!=='reading')return; const t=e.touches&&e.touches[0]; if(!t)return; if(!(e.target&&e.target.closest&&e.target.closest('#readbody')))return; this._sx=t.clientX; this._sy=t.clientY; this._st=Date.now(); };
-  swipeEnd=(e)=>{ const t=e.changedTouches&&e.changedTouches[0]; if(!t||this._sx==null)return; const dx=t.clientX-this._sx, dy=t.clientY-this._sy, dt=Date.now()-this._st; this._sx=null; if(dt>700)return; if(Math.abs(dx)<55||Math.abs(dx)<Math.abs(dy)*1.4)return; const st=this.state; const maxCh=this.bookChapters(st.book); if(dx>0){ if(st.chapter<maxCh)this.setState({chapter:st.chapter+1,bmAdd:false,sheet:null}); } else { if(st.chapter>1)this.setState({chapter:st.chapter-1,bmAdd:false,sheet:null}); } };
+  swipeEnd=(e)=>{ const t=e.changedTouches&&e.changedTouches[0]; if(!t||this._sx==null)return; const dx=t.clientX-this._sx, dy=t.clientY-this._sy, dt=Date.now()-this._st; this._sx=null; if(dt>700)return; if(Math.abs(dx)<55||Math.abs(dx)<Math.abs(dy)*1.4)return; const st=this.state; const maxCh=this.bookChapters(st.book); if(dx<0){ if(st.chapter<maxCh)this.setState({chapter:st.chapter+1,bmAdd:false,sheet:null}); } else { if(st.chapter>1)this.setState({chapter:st.chapter-1,bmAdd:false,sheet:null}); } };
   bookHe(id){ for(const k in this.SEC){ const f=this.SEC[k][1].find(b=>b[0]===id); if(f)return f[1]; } return id; }
   bookChapters(id){ for(const k in this.SEC){ const f=this.SEC[k][1].find(b=>b[0]===id); if(f)return f[2]; } return 1; }
   sectionOf(id){ for(const k in this.SEC){ if(this.SEC[k][1].some(b=>b[0]===id))return k; } return 'torah'; }
@@ -424,7 +424,7 @@ class Component extends DCLogic {
     const contTotal=this.bookChapters(cont.book);
 
     return {
-      stageStyle, versionLine:'Version 1.19   Build 06.30.2026',
+      stageStyle, versionLine:'Version 1.20   Build 07.01.2026',
       isHome:S==='home',isLibrary:S==='library',isReading:S==='reading',isSearch:S==='search',isSettings:S==='settings',isBookmarks:S==='bookmarks',
       showNav:S!=='reading', nav,
       greeting:this.greetingFor(), dateHe:'יום ראשון · כ״ב בְּסִיוָן תשפ״ו',
