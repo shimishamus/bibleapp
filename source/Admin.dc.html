@@ -194,7 +194,7 @@ class Component extends DCLogic {
   bookInfo(id){ return this.books().find(b=>b[0]===id)||this.books()[0]; }
   fileKey(){ return this.state.tr+'/'+this.state.book; }
   path(tr,id){ const b=(this.state.cfg.base||'').replace(/^\/+|\/+$/g,''); return (b?b+'/':'')+'data/'+(tr||this.state.tr)+'/'+(id||this.state.book)+'.txt'; }
-  api(p,opt){ const c=this.state.cfg; return fetch('https://api.github.com/repos/'+encodeURIComponent(c.owner)+'/'+encodeURIComponent(c.repo)+p,{...(opt||{}),headers:{'Authorization':'Bearer '+this.state.token.trim(),'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...((opt&&opt.headers)||{})}}); }
+  api(p,opt){ const c=this.state.cfg; return fetch('https://api.github.com/repos/'+encodeURIComponent(c.owner)+'/'+encodeURIComponent(c.repo)+p+((opt&&opt.method&&opt.method!=='GET')?'':((p.includes('?')?'&':'?')+'_='+Date.now()+Math.random().toString(36).slice(2,6))),{cache:'no-store',...(opt||{}),headers:{'Authorization':'Bearer '+this.state.token.trim(),'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...((opt&&opt.headers)||{})}}); }
 
   async login(silent){
     const c=this.state.cfg;
@@ -221,7 +221,7 @@ class Component extends DCLogic {
       let raw, sha=null;
       if(mode==='github'){
         const p='/contents/'+this.path().split('/').map(encodeURIComponent).join('/')+'?ref='+encodeURIComponent(this.state.cfg.branch);
-        const [meta, body]=await Promise.all([this.api(p), this.api(p,{headers:{'Accept':'application/vnd.github.raw'}})]);
+        const [meta, body]=await Promise.all([this.api(p), this.api(p+'&raw='+Date.now(),{headers:{'Accept':'application/vnd.github.raw'}})]);
         if(meta.status===404) throw new Error('File '+this.path()+' was not found in the repository. Check "Site folder".');
         if(!meta.ok||!body.ok) throw new Error('Error loading from GitHub ('+meta.status+').');
         sha=(await meta.json()).sha; raw=await body.text();
@@ -284,10 +284,10 @@ class Component extends DCLogic {
         if(meta.status===404){
           const old=enc(this.adsPath().replace('promo.json','ads.json')); const om=await this.api(old);
           if(!om.ok){ this.setState({ads:this.emptyAds(),adsSha:null,adsLoading:false}); return; }
-          const ob=await this.api(old,{headers:{'Accept':'application/vnd.github.raw'}});
+          const ob=await this.api(old+'&raw='+Date.now(),{headers:{'Accept':'application/vnd.github.raw'}});
           this.setState({ads:this.normAds(JSON.parse(await ob.text())),adsSha:null,adsLoading:false,adStatus:'Loaded from the old ads.json. Click "Publish ads to site" once to move everything to the new ad-blocker-safe location.',adErr:false}); return;
         }
-        const body=await this.api(p,{headers:{'Accept':'application/vnd.github.raw'}});
+        const body=await this.api(p+'&raw='+Date.now(),{headers:{'Accept':'application/vnd.github.raw'}});
         this.setState({ads:this.normAds(JSON.parse(await body.text())),adsSha:(await meta.json()).sha,adsLoading:false});
       } else {
         let d=null; try{ d=JSON.parse(localStorage.getItem('hb_ads_draft')||'null'); }catch(e){}
