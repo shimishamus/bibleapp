@@ -4,33 +4,40 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<link rel="manifest" href="app.webmanifest">
-<meta name="theme-color" content="#121519">
+<meta name="theme-color" content="#f3e7d7">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600&display=swap">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>התנ&quot;ך והברית החדשה</title>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500&display=swap">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700&family=Noto+Serif+Hebrew:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&display=swap" rel="stylesheet">
 <link rel="apple-touch-icon" href="app-logo.png">
 <link rel="icon" type="image/png" href="app-logo.png">
 <style>
-  body{margin:0;font-family:'Noto Sans Hebrew',sans-serif;background:#0a0c0e;}
+  body{margin:0;font-family:'Noto Sans Hebrew',sans-serif;background:#f3e7d7;}
   *{box-sizing:border-box;}
   @font-face{font-family:'Narkissim';src:url('fonts/Narkissim-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
   @font-face{font-family:'Narkissim';src:url('fonts/Narkissim-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap;}
   @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
   @keyframes popIn{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+  #screen *:not([style*="Material"]):not([style*="Material"] *):not(#readbody):not(#readbody *){font-family:'Noto Sans Hebrew','Noto Sans',sans-serif;}
+  #readbar span:not([data-lbl]):not([data-lbl] *){font-family:'Material Symbols Outlined'!important;}
+  #readbar [data-lbl],#readbar [data-lbl] *{font-family:'Noto Sans Hebrew','Noto Sans',sans-serif!important;font-weight:400!important;font-size:24px!important;}
+  [data-lang="en"] #readbar [data-lbl],[data-lang="en"] #readbar [data-lbl] *{font-size:15px!important;}
+  [data-lang="en"] [data-flip]{display:inline-block;transform:scaleX(-1);}
   ::-webkit-scrollbar{width:0;height:0}
   input::placeholder{color:var(--muted);}
-  html,body{height:100%;background:#0a0c0e;}
-  #stage{padding:0!important;min-height:100dvh!important;background:#0a0c0e!important;display:flex!important;align-items:stretch!important;justify-content:center!important;}
+  html,body{height:100%;background:#f3e7d7;overflow:hidden;}
+  #stage{padding:0!important;min-height:100dvh!important;background:#f3e7d7!important;display:flex!important;align-items:stretch!important;justify-content:center!important;}
   #bezel{width:min(100vw,430px)!important;height:100dvh!important;border-radius:0!important;padding:0!important;box-shadow:none!important;background:var(--bg)!important;}
   #screen{width:100%!important;height:100%!important;border-radius:0!important;}
   [data-chrome]{display:none!important;}
@@ -38,50 +45,69 @@
   #nav{padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;height:auto!important;}
   #readtop{top:env(safe-area-inset-top,0px)!important;}
   #readbar{height:auto!important;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))!important;}
-  #readbody{top:calc(env(safe-area-inset-top,0px) + 52px)!important;bottom:calc(56px + env(safe-area-inset-bottom,0px))!important;}
+  #readbody{top:calc(env(safe-area-inset-top,0px) + 76px)!important;bottom:calc(84px + env(safe-area-inset-bottom,0px))!important;}
+  /* Desktop / embedded: fill the full width instead of a phone-sized column */
+  @media (min-width:760px){
+    #bezel{width:100%!important;max-width:none!important;}
+    [data-screentop]{padding-inline:max(20px,calc((100% - 1060px)/2))!important;}
+    #readbody{padding-inline:clamp(40px,12vw,240px)!important;}
+    #readtop,#readbar,#nav{padding-inline:max(16px,calc((100% - 1060px)/2))!important;}
+    #readbar{justify-content:center!important;gap:clamp(14px,5vw,90px)!important;flex-wrap:nowrap!important;}
+    #readbar span:not([data-lbl]):not([data-lbl] *){font-size:34px!important;}
+    #nav{top:0!important;bottom:0!important;left:auto!important;right:0!important;width:340px!important;height:100%!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:4px!important;padding:22px 14px!important;border-top:0!important;border-left:1px solid var(--line)!important;background:var(--surface)!important;overflow-y:auto!important;}
+    #nav>div:not([data-siderail-head]){flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:16px!important;padding:15px 16px!important;border-radius:12px!important;transition:background .15s;}
+    #nav>div:not([data-siderail-head]):hover{background:var(--s2)!important;}
+    #nav>div:not([data-siderail-head])>span:first-child{font-size:34px!important;}
+    #nav>div:not([data-siderail-head])>span:last-child{font:400 28px 'Noto Sans Hebrew',sans-serif!important;color:var(--text)!important;}
+    [data-siderail-head]{display:block!important;font:500 22px 'Noto Sans Hebrew','Noto Sans',sans-serif;white-space:nowrap;flex-shrink:0;color:var(--text);padding:6px 14px 18px;border-bottom:1px solid var(--line);margin-bottom:10px;}
+    [data-screentop],#readtop,#readbody,#readbar{right:340px!important;}
+    [data-screentop]{padding-bottom:24px!important;}
+    #readtop{gap:12px!important;}
+    [data-langnav]{display:flex!important;}
+    #nav>*{flex-shrink:0;}
+    [data-promo]{display:flex!important;}
+    [data-lang="en"] #nav{right:auto!important;left:0!important;border-left:0!important;border-right:1px solid var(--line)!important;}
+    [data-lang="en"] [data-screentop],[data-lang="en"] #readtop,[data-lang="en"] #readbody,[data-lang="en"] #readbar{right:0!important;left:340px!important;}
+    #readbody[data-multi="1"]{padding-inline:clamp(24px,3.5vw,64px)!important;}
+    #readbar{height:84px!important;padding-bottom:0!important;}
+  }
+  @media (min-width:760px) and (max-width:1060px){
+    [data-rtitle]{display:none!important;}
+  }
+  @media (min-width:1100px){
+    #readbody{font-size:1.05em;}
+  }
 </style>
 </helmet>
 <div id="stage" style="{{ stageStyle }}">
   <div id="bezel" style="width:390px;height:844px;background:#000;border-radius:46px;padding:5px;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06)">
-    <div id="screen" dir="rtl" style="position:relative;width:380px;height:834px;background:var(--bg);border-radius:41px;overflow:hidden;color:var(--text)">
+    <div id="screen" dir="{{ uiDir }}" data-lang="{{ lang }}" style="position:relative;width:380px;height:834px;background:var(--bg);border-radius:41px;overflow:hidden;color:var(--text)">
       <div data-chrome dir="ltr" style="position:relative;z-index:40;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 28px 0 30px">
-        <div style="font:600 15px 'Noto Sans',sans-serif;letter-spacing:.3px">9:41</div>
-        <div style="display:flex;gap:7px;align-items:center;font-family:'Material Symbols Outlined';font-weight:300;font-size:18px"><span>signal_cellular_alt</span><span>wifi</span><span style="font-size:20px">battery_full</span></div>
+        <div style="font:600 30px 'Noto Sans',sans-serif;letter-spacing:.3px">9:41</div>
+        <div style="display:flex;gap:7px;align-items:center;font-family:'Material Symbols Outlined';font-weight:300;font-size:36px"><span>signal_cellular_alt</span><span>wifi</span><span style="font-size:40px">battery_full</span></div>
       </div>
       <div data-chrome style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#000;border-radius:16px;z-index:45"></div>
 
       <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
         <div data-screentop style="position:absolute;top:50px;left:0;right:0;bottom:0;overflow-y:auto;padding:20px 20px 74px">
-          <div style="margin-bottom:20px"><div style="font:600 27px 'Noto Sans Hebrew',sans-serif;color:var(--text);line-height:1.2">{{ greeting }}</div><div style="font:400 12.5px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:6px">{{ dateHe }}</div></div>
+          <div style="margin-bottom:20px"><div style="font:600 54px 'Noto Sans Hebrew',sans-serif;color:var(--text);line-height:1.2">{{ greeting }}</div><div style="font:400 25px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:6px">{{ dateHe }}</div></div>
           <div style="display:flex;gap:12px;margin-bottom:22px">
-            <div onClick="{{ onOpenTanakh }}" style="cursor:pointer;flex:1;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:9px">
-              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:30px;color:var(--accent)">menu_book</span>
-              <span style="font:600 16px 'Noto Sans Hebrew',sans-serif;color:var(--text)">תנ״ך</span>
+            <div onClick="{{ onOpenTanakh }}" style="cursor:pointer;flex:1;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;align-items:center;gap:9px">
+              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:45px;color:var(--accent)">menu_book</span>
+              <span style="font:600 32px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.tanakh }}</span>
             </div>
-            <div onClick="{{ onOpenNT }}" style="cursor:pointer;flex:1;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:9px">
-              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:30px;color:var(--accent)">auto_stories</span>
-              <span style="font:600 16px 'Noto Sans Hebrew',sans-serif;color:var(--text)">הברית החדשה</span>
+            <div onClick="{{ onOpenNT }}" style="cursor:pointer;flex:1;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;align-items:center;gap:9px">
+              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:45px;color:var(--accent)">auto_stories</span>
+              <span style="font:600 32px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.nt }}</span>
             </div>
           </div>
-          <div style="background:var(--dailyCard);border:1px solid var(--dailyBorder);border-radius:18px;padding:15px 16px;margin-bottom:14px">
+          <div style="background:var(--dailyCard);border:1px solid var(--dailyBorder);border-radius:18px;padding:30px 34px;margin-bottom:18px">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
-              <div><div style="font:600 11.5px 'Noto Sans Hebrew',sans-serif;color:var(--gold);letter-spacing:.3px;margin-bottom:4px">המשך קריאה</div><div style="font:600 18px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ contRef }}</div></div>
-              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:26px;color:var(--faint)">menu_book</span>
+              <div><div style="font:600 23px 'Noto Sans Hebrew',sans-serif;color:var(--gold);letter-spacing:.3px;margin-bottom:4px">{{ t.contReading }}</div><div style="font:600 36px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ contRef }}</div></div>
+              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:52px;color:var(--faint)">menu_book</span>
             </div>
             <div style="display:flex;justify-content:flex-end">
-              <span onClick="{{ onContinue }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accentInk);font:600 13px 'Noto Sans Hebrew',sans-serif;padding:9px 16px;border-radius:11px">המשך <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:17px">arrow_back</span></span>
-            </div>
-          </div>
-          <div onClick="{{ onOpenDaily }}" style="cursor:pointer;background:var(--dailyCard);border:1px solid var(--dailyBorder);border-radius:20px;padding:16px 18px 16px;margin-bottom:14px">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px">
-              <div style="font:600 11.5px 'Noto Sans Hebrew',sans-serif;color:var(--gold);letter-spacing:.3px">הקריאה היומית</div>
-              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:24px;color:var(--faint)">schedule</span>
-            </div>
-            <div style="font:600 21px 'Noto Sans Hebrew',sans-serif;color:var(--text);margin-bottom:9px">{{ dailyRef }}</div>
-            <div style="font:400 16px/1.95 'Noto Sans Hebrew',sans-serif;color:var(--text2);margin-bottom:16px">{{ dailySnippet }}</div>
-            <div style="display:flex;align-items:center;justify-content:space-between">
-              <span style="font:400 12.5px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">{{ dailyMeta }}</span>
-              <span style="display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accentInk);font:600 13px 'Noto Sans Hebrew',sans-serif;padding:9px 16px;border-radius:11px">קרא עכשיו <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:17px">arrow_back</span></span>
+              <span onClick="{{ onContinue }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accentInk);font:600 26px 'Noto Sans Hebrew',sans-serif;padding:9px 16px;border-radius:11px">{{ t.cont }} <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:34px" data-flip>arrow_back</span></span>
             </div>
           </div>
         </div>
@@ -89,86 +115,134 @@
 
       <sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ true }}">
         <div data-screentop style="position:absolute;top:50px;left:0;right:0;bottom:0;display:flex;flex-direction:column">
-          <div style="padding:8px 20px 8px"><div style="font:600 23px 'Noto Sans Hebrew',sans-serif;color:var(--text)">ספרייה</div>
+          <div style="padding:34px 20px 10px"><div style="font:600 46px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.library }}</div>
           </div>
-          <div style="display:flex;gap:8px;padding:0 20px 14px;overflow-x:auto"><sc-for list="{{ libTabs }}" as="t" hint-placeholder-count="4"><span onClick="{{ t.on }}" style="cursor:pointer;white-space:nowrap;font:600 13px 'Noto Sans Hebrew',sans-serif;color:{{ t.fg }};background:{{ t.bg }};border:{{ t.bd }};padding:7px 15px;border-radius:18px">{{ t.he }}</span></sc-for></div>
+          <div style="display:flex;gap:8px;padding:0 20px 14px;overflow-x:auto"><sc-for list="{{ libTabs }}" as="t" hint-placeholder-count="4"><span onClick="{{ t.on }}" style="cursor:pointer;white-space:nowrap;font:600 26px 'Noto Sans Hebrew',sans-serif;color:{{ t.fg }};background:{{ t.bg }};border:{{ t.bd }};padding:7px 15px;border-radius:18px">{{ t.he }}</span></sc-for></div>
           <div style="flex:1;overflow-y:auto;padding:0 20px 96px">
             <sc-for list="{{ libRows }}" as="r" hint-placeholder-count="6">
-              <sc-if value="{{ r.isHeader }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font:600 11px 'Noto Sans Hebrew',sans-serif;color:var(--muted);opacity:.5;letter-spacing:.6px;margin:16px 0 6px">{{ r.he }}</div></sc-if>
+              <sc-if value="{{ r.isHeader }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;font:600 22px 'Noto Sans Hebrew',sans-serif;color:var(--muted);opacity:.5;letter-spacing:.6px;margin:16px 0 6px">{{ r.he }}</div></sc-if>
               <sc-if value="{{ r.isGap }}" hint-placeholder-val="{{ false }}"><div style="height:12px"></div></sc-if>
-              <sc-if value="{{ r.isBook }}" hint-placeholder-val="{{ true }}"><div onClick="{{ r.on }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid var(--line)"><div style="font:500 18px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ r.he }}</div><div style="display:flex;align-items:center;gap:8px"><span style="font:400 12px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">{{ r.sub }}</span><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:18px;color:var(--faint)">chevron_left</span></div></div></sc-if>
+              <sc-if value="{{ r.isBook }}" hint-placeholder-val="{{ true }}"><div onClick="{{ r.on }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:14px 2px;border-bottom:1px solid var(--line)"><div style="font:500 36px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ r.he }}</div><div style="display:flex;align-items:center;gap:8px"><span style="font:400 24px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">{{ r.sub }}</span><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:36px;color:var(--faint)" data-flip>chevron_left</span></div></div></sc-if>
             </sc-for>
           </div>
         </div>
       </sc-if>
 
       <sc-if value="{{ isReading }}" hint-placeholder-val="{{ true }}">
-        <div id="readtop" dir="rtl" style="position:absolute;top:50px;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 14px 0 16px;background:var(--surface);border-bottom:1px solid var(--line);z-index:6">
-          <div style="display:flex;align-items:center;gap:6px"><span onClick="{{ onBack }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:24px;color:var(--muted)">chevron_right</span><span style="font:600 15px 'Noto Sans Hebrew',sans-serif;color:var(--text);white-space:nowrap">{{ rBookHe }}, פרק {{ rChapLabel }}</span></div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <sc-if value="{{ rIsOT }}" hint-placeholder-val="{{ true }}"><div onClick="{{ onToggleTaamim }}" style="cursor:pointer;display:flex;align-items:center;gap:6px;background:var(--s2);border-radius:9px;padding:5px 10px"><span style="font:600 12px 'Noto Sans Hebrew',sans-serif;color:{{ taamimFg }}">טעמים</span><span style="width:7px;height:7px;border-radius:50%;background:{{ taamimDot }}"></span></div></sc-if>
-            <div style="display:flex;align-items:center;gap:11px;background:var(--s2);border-radius:9px;padding:3px 12px"><span onClick="{{ onFontDown }}" style="cursor:pointer;font:600 13px 'Noto Sans Hebrew',sans-serif;color:var(--text2)">א-</span><span style="width:1px;height:15px;background:var(--line)"></span><span onClick="{{ onFontUp }}" style="cursor:pointer;font:700 19px 'Noto Sans Hebrew',sans-serif;color:var(--text)">א+</span></div>
+        <div id="readtop" dir="{{ uiDir }}" style="position:absolute;top:50px;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:center;padding:0 14px 0 16px;background:var(--surface);border-bottom:1px solid var(--line);z-index:6">
+          <div style="position:absolute;inset-inline-start:16px;top:0;bottom:0;display:flex;align-items:center"><span onClick="{{ onBack }}" style="cursor:pointer;flex-shrink:0;font-family:'Material Symbols Outlined';font-weight:300;font-size:48px;color:var(--muted)" data-flip>chevron_right</span></div>
+          <div style="display:flex;align-items:center;gap:20px;flex-shrink:0">
+            <div dir="ltr" style="display:flex;align-items:center;gap:6px;background:var(--s2);border-radius:10px;padding:4px">
+              <sc-for list="{{ trToggles }}" as="t" hint-placeholder-count="3"><div onClick="{{ t.on }}" title="{{ t.title }}" style="cursor:pointer;padding:5px 12px;border-radius:7px;background:{{ t.bg }};font:600 21px 'Noto Sans Hebrew',sans-serif;color:{{ t.fg }};white-space:nowrap">{{ t.label }}</div></sc-for>
+            </div>
+            <sc-if value="{{ rIsOT }}" hint-placeholder-val="{{ true }}"><div onClick="{{ onToggleTaamim }}" style="cursor:pointer;display:flex;align-items:center;gap:6px;background:var(--s2);border-radius:9px;padding:5px 10px"><span style="font:600 24px 'Noto Sans Hebrew',sans-serif;color:{{ taamimFg }}">{{ t.taamimShort }}</span><span style="width:7px;height:7px;border-radius:50%;background:{{ taamimDot }}"></span></div></sc-if>
+            <div style="display:flex;align-items:center;gap:11px;background:var(--s2);border-radius:9px;padding:3px 12px"><span onClick="{{ onFontDown }}" style="cursor:pointer;font:600 26px 'Noto Sans Hebrew',sans-serif;color:var(--text2)">{{ t.fontDn }}</span><span style="width:1px;height:15px;background:var(--line)"></span><span onClick="{{ onFontUp }}" style="cursor:pointer;font:700 38px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.fontUp }}</span></div>
           </div>
         </div>
-        <div id="readbody" style="position:absolute;top:102px;left:0;right:0;bottom:56px;overflow-y:auto;padding:18px 20px 30px">
-          <div style="text-align:center;margin-bottom:20px">
-            <div style="font:500 16px 'Noto Sans Hebrew',sans-serif;color:var(--gold);margin-bottom:3px">{{ rBookHe }}</div>
-            <div style="font:300 68px 'Noto Sans Hebrew',sans-serif;color:var(--accent);line-height:1">{{ rChapHe }}</div>
+        <div id="readbody" data-multi="{{ rMulti }}" style="position:absolute;top:126px;left:0;right:0;bottom:84px;overflow-y:auto;padding:18px 20px 30px">
+          <div style="text-align:center;margin-bottom:24px;display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div onClick="{{ onOpenBookPicker }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:8px;font:600 45px 'Noto Sans Hebrew',sans-serif;color:var(--gold);padding:6px 16px;border-radius:12px;border:1px solid var(--line)" style-hover="background:var(--s2)"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:44px;opacity:.65">expand_more</span>{{ rBookHe }}</div>
+            <div onClick="{{ onOpenChapPicker }}" style="cursor:pointer;display:inline-flex;align-items:flex-end;gap:10px;font:300 105.8px 'Noto Sans Hebrew',sans-serif;color:var(--accent);line-height:1.05;padding:0 14px;border-radius:14px" style-hover="background:var(--s2)"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:52px;opacity:.55;padding-bottom:22px">expand_more</span>{{ rChapHe }}</div>
           </div>
           <sc-if value="{{ rHasText }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ rMultiHead }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:10px;padding:0 2px 10px;border-bottom:1px solid var(--line);margin-bottom:4px">
+                <span style="flex-shrink:0;min-width:16px"></span>
+                <div style="flex:1;display:grid;grid-template-columns:{{ gridCols }};gap:clamp(20px,3vw,48px)">
+                  <sc-for list="{{ colHeads }}" as="c" hint-placeholder-count="2"><div dir="{{ c.dir }}" style="font:600 20px 'Noto Sans Hebrew','Noto Sans',sans-serif;color:var(--muted);letter-spacing:.04em;text-align:{{ c.align }}">{{ c.label }}</div></sc-for>
+                </div>
+              </div>
+            </sc-if>
             <sc-for list="{{ verses }}" as="v" hint-placeholder-count="5">
-              <div style="display:flex;gap:10px;padding:9px 2px;border-bottom:1px solid var(--line)">
-                <span style="flex-shrink:0;font:600 13px 'Noto Sans Hebrew',sans-serif;color:var(--accent);padding-top:7px;min-width:16px">{{ v.nHe }}</span>
-                <div data-verse="{{ v.vnum }}" style="text-align:right;color:var(--text);font-family:{{ readFont }};font-size:{{ rFontPx }};line-height:1.95"><sc-for list="{{ v.words }}" as="w" hint-placeholder-count="6"><span>{{ w.disp }}</span></sc-for></div>
+              <div style="display:flex;gap:10px;padding:9px 2px;border-bottom:1px solid rgba(128,128,128,.07)">
+                <span style="flex-shrink:0;font:600 26px 'Noto Sans Hebrew',sans-serif;color:var(--accent);padding-top:7px;min-width:16px">{{ v.nHe }}</span>
+                <div style="flex:1;min-width:0;display:grid;grid-template-columns:{{ gridCols }};gap:clamp(20px,3vw,48px)">
+                  <sc-if value="{{ showHe }}" hint-placeholder-val="{{ true }}">
+                    <div data-verse="{{ v.vnum }}" dir="rtl" style="text-align:right;color:var(--text);font-family:{{ readFont }};font-size:{{ rFontPx }};line-height:1.95"><sc-for list="{{ v.words }}" as="w" hint-placeholder-count="6"><span>{{ w.disp }}</span></sc-for></div>
+                  </sc-if>
+                  <sc-for list="{{ v.eng }}" as="e" hint-placeholder-count="0">
+                    <div dir="ltr" style="text-align:left;color:var(--text);font-family:{{ engFont }};font-size:{{ rEngPx }};line-height:1.7;padding-top:6px;text-wrap:pretty">{{ e.text }}</div>
+                  </sc-for>
+                </div>
               </div>
             </sc-for>
           </sc-if>
           <sc-if value="{{ rNoText }}" hint-placeholder-val="{{ true }}">
             <div style="text-align:center;padding:40px 20px;color:var(--muted)">
-              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:40px;color:var(--faint)">post_add</span>
-              <div style="font:500 16px 'Noto Sans Hebrew',sans-serif;color:var(--text2);margin-top:14px">הטקסט של {{ rBookHe }} עדיין לא נוסף</div>
-              <div style="font:400 13px/1.7 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:8px">הוסיפו אותו לקובץ<br><span dir="ltr" style="font-family:'Noto Sans',monospace;color:var(--accent)">data/text/{{ rBookId }}.txt</span></div>
+              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:60px;color:var(--faint)">post_add</span>
+              <div style="font:500 32px 'Noto Sans Hebrew',sans-serif;color:var(--text2);margin-top:14px">{{ t.noTextA }} {{ rBookHe }} {{ t.noTextB }}</div>
+              <div style="font:400 26px/1.7 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:8px">{{ t.addToFile }}<br><span dir="ltr" style="font-family:'Noto Sans',monospace;color:var(--accent)">data/text/{{ rBookId }}.txt</span></div>
             </div>
           </sc-if>
         </div>
         <sc-if value="{{ bmAdd }}" hint-placeholder-val="{{ false }}">
-          <div style="position:absolute;left:16px;right:16px;bottom:66px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;z-index:9;box-shadow:0 12px 36px rgba(0,0,0,.45);animation:popIn .18s ease">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font:600 14px 'Noto Sans Hebrew',sans-serif;color:var(--text)">צבע הסימנייה</span><span onClick="{{ onCloseBmAdd }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:20px;color:var(--muted)">close</span></div>
+          <div style="position:absolute;left:16px;right:16px;bottom:66px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 32px;z-index:9;box-shadow:0 12px 36px rgba(0,0,0,.45);animation:popIn .18s ease">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font:600 28px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.bmColor }}</span><span onClick="{{ onCloseBmAdd }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:40px;color:var(--muted)">close</span></div>
             <div style="display:flex;gap:12px;justify-content:space-between;margin-bottom:4px"><sc-for list="{{ bmColors }}" as="c" hint-placeholder-count="5"><span onClick="{{ c.on }}" style="cursor:pointer;width:42px;height:42px;border-radius:50%;background:{{ c.color }};border:{{ c.ring }};box-shadow:0 0 0 1px var(--line)"></span></sc-for></div>
-            <sc-if value="{{ curBookmarked }}" hint-placeholder-val="{{ false }}"><div onClick="{{ onRemoveCurrent }}" style="cursor:pointer;display:flex;align-items:center;gap:7px;justify-content:center;margin-top:14px;padding-top:13px;border-top:1px solid var(--line);font:600 13px 'Noto Sans Hebrew',sans-serif;color:#cf7d8f"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:18px">delete</span>הסר סימנייה</div></sc-if>
+            <sc-if value="{{ curBookmarked }}" hint-placeholder-val="{{ false }}"><div onClick="{{ onRemoveCurrent }}" style="cursor:pointer;display:flex;align-items:center;gap:7px;justify-content:center;margin-top:14px;padding-top:13px;border-top:1px solid var(--line);font:600 26px 'Noto Sans Hebrew',sans-serif;color:#cf7d8f"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:36px">delete</span>{{ t.removeBm }}</div></sc-if>
           </div>
         </sc-if>
-        <div id="readbar" dir="rtl" style="position:absolute;bottom:0;left:0;right:0;height:56px;background:var(--surface);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 18px 6px;font-family:'Material Symbols Outlined';font-weight:300;font-size:24px;color:var(--muted);z-index:6">
-          <span onClick="{{ onPrev }}" style="cursor:pointer;color:{{ prevFg }}">chevron_right</span>
+        <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ onClosePicker }}" style="position:absolute;inset:0;background:rgba(0,0,0,.42);z-index:40"></div>
+          <div dir="{{ uiDir }}" style="position:absolute;top:0;bottom:0;right:0;width:min(460px,92%);background:var(--surface);border-left:1px solid var(--line);box-shadow:-16px 0 44px rgba(0,0,0,.28);z-index:41;display:flex;flex-direction:column;animation:popIn .18s ease">
+            <div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--line)">
+              <span style="font:700 38px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ pickerTitle }}</span>
+              <span onClick="{{ onClosePicker }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:48px;color:var(--muted)">close</span>
+            </div>
+            <div style="flex:1;overflow-y:auto;padding:14px 18px 26px">
+              <sc-if value="{{ pickerIsBook }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ pickerGroups }}" as="g" hint-placeholder-count="3">
+                  <div style="margin-bottom:18px">
+                    <div style="font:700 26px 'Noto Sans Hebrew',sans-serif;color:var(--muted);letter-spacing:.06em;margin-bottom:9px">{{ g.he }}</div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:7px">
+                      <sc-for list="{{ g.books }}" as="b" hint-placeholder-count="6">
+                        <div onClick="{{ b.on }}" style="cursor:pointer;padding:14px 18px;border-radius:10px;background:{{ b.bg }};border:1px solid var(--line);font:600 26px/1.3 'Noto Sans Hebrew',sans-serif;color:{{ b.fg }};text-align:right;white-space:normal" style-hover="background:var(--s2)">{{ b.he }}</div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{ pickerIsChap }}" hint-placeholder-val="{{ false }}">
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:7px">
+                  <sc-for list="{{ pickerChaps }}" as="c" hint-placeholder-count="12">
+                    <div onClick="{{ c.on }}" style="cursor:pointer;height:52px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:{{ c.bg }};border:1px solid var(--line);font:600 38px 'Noto Sans Hebrew',sans-serif;color:{{ c.fg }}" style-hover="background:var(--s2)">{{ c.he }}</div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+        <div id="readbar" dir="{{ uiDir }}" style="position:absolute;bottom:0;left:0;right:0;height:56px;background:var(--surface);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:0 18px 6px;font-family:'Material Symbols Outlined';font-weight:300;font-size:48px;color:var(--muted);z-index:6">
+          <span onClick="{{ onPrev }}" style="cursor:pointer;color:{{ prevFg }}" data-flip>chevron_right</span>
           <span onClick="{{ onGoHome }}" style="cursor:pointer;color:var(--muted)">home</span>
-          <span style="font:600 13px 'Noto Sans Hebrew',sans-serif;color:var(--text2)">פרק {{ rChapLabel }}</span>
+          <span data-lbl style="font:500 26px 'Noto Sans Hebrew','Noto Sans',sans-serif;color:var(--text2);white-space:nowrap">{{ t.chapter }} {{ rChapLabel }}</span>
           <span onClick="{{ onBmToggle }}" style="cursor:pointer;color:{{ bmIconColor }}">{{ bmIcon }}</span>
-          <span onClick="{{ onNext }}" style="cursor:pointer;color:{{ nextFg }}">chevron_left</span>
+          <span onClick="{{ onNext }}" style="cursor:pointer;color:{{ nextFg }}" data-flip>chevron_left</span>
         </div>
       </sc-if>
 
       <sc-if value="{{ isSearch }}" hint-placeholder-val="{{ true }}">
         <div data-screentop style="position:absolute;top:50px;left:0;right:0;bottom:0;display:flex;flex-direction:column">
-          <div style="padding:6px 20px 12px">
-            <div style="display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--dailyBorder);border-radius:12px;padding:11px 13px"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:21px;color:var(--accent)">search</span><input value="{{ query }}" onInput="{{ onSearchInput }}" placeholder="חפש מילה או ביטוי" style="flex:1;border:none;outline:none;background:transparent;font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text)" /><span onClick="{{ onClearSearch }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:18px;color:var(--muted)">close</span></div>
+          <div style="padding:34px 20px 12px">
+            <div style="display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--dailyBorder);border-radius:12px;padding:18px 26px"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:42px;color:var(--accent)">search</span><input value="{{ query }}" onInput="{{ onSearchInput }}" placeholder="{{ t.searchPh }}" style="flex:1;border:none;outline:none;background:transparent;font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)" /><span onClick="{{ onClearSearch }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:36px;color:var(--muted)">close</span></div>
           </div>
           <div onClick="{{ onToggleBroad }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 20px 14px">
-            <div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 13px 'Noto Sans Hebrew',sans-serif;color:var(--text)">חיפוש נרחב</span><span style="font:400 11px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">כולל מילים שהביטוי מופיע בתוכן</span></div>
+            <div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 26px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.broad }}</span><span style="font:400 22px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">{{ t.broadSub }}</span></div>
             <div dir="ltr" style="width:46px;height:28px;border-radius:14px;background:{{ tgBroadBg }};position:relative;flex-shrink:0"><div style="position:absolute;top:3px;left:{{ tgBroadX }};width:22px;height:22px;border-radius:50%;background:#fff"></div></div>
           </div>
           <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ true }}">
             <div style="flex:1;overflow-y:auto;padding:0 20px 20px">
-              <div style="font:400 12.5px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-bottom:12px">{{ resultCount }}</div>
+              <div style="font:400 25px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-bottom:12px">{{ resultCount }}</div>
               <sc-for list="{{ results }}" as="r" hint-placeholder-count="4">
-                <div onClick="{{ r.on }}" style="cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:10px"><div style="font:600 11.5px 'Noto Sans Hebrew',sans-serif;color:var(--accent);margin-bottom:7px">{{ r.ref }}</div><div style="font:400 16px/1.8 'Noto Sans Hebrew',sans-serif"><sc-for list="{{ r.words }}" as="w" hint-placeholder-count="6"><span style="color:{{ w.color }};font-weight:{{ w.weight }}">{{ w.disp }}</span></sc-for></div></div>
+                <div onClick="{{ r.on }}" style="cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:24px 30px;margin-bottom:14px"><div style="font:600 23px 'Noto Sans Hebrew',sans-serif;color:var(--accent);margin-bottom:7px">{{ r.ref }}</div><div style="font:400 32px/1.8 'Noto Sans Hebrew',sans-serif"><sc-for list="{{ r.words }}" as="w" hint-placeholder-count="6"><span style="color:{{ w.color }};font-weight:{{ w.weight }}">{{ w.disp }}</span></sc-for></div></div>
               </sc-for>
-              <sc-if value="{{ noResults }}" hint-placeholder-val="{{ true }}"><div style="text-align:center;color:var(--muted);font:400 14px 'Noto Sans Hebrew',sans-serif;padding:30px">לא נמצאו תוצאות</div></sc-if>
+              <sc-if value="{{ noResults }}" hint-placeholder-val="{{ true }}"><div style="text-align:center;color:var(--muted);font:400 28px 'Noto Sans Hebrew',sans-serif;padding:30px">{{ t.noResults }}</div></sc-if>
             </div>
           </sc-if>
           <sc-if value="{{ noQuery }}" hint-placeholder-val="{{ true }}">
             <div style="flex:1;overflow-y:auto;padding:4px 20px 20px">
-              <div style="font:600 12px 'Noto Sans Hebrew',sans-serif;color:var(--muted);letter-spacing:.3px;margin-bottom:12px">חיפושים אחרונים</div>
-              <div style="display:flex;flex-wrap:wrap;gap:9px"><sc-for list="{{ recents }}" as="c" hint-placeholder-count="4"><span onClick="{{ c.on }}" style="cursor:pointer;font:500 14px 'Noto Sans Hebrew',sans-serif;color:var(--text2);background:var(--surface);border:1px solid var(--line);padding:8px 15px;border-radius:18px">{{ c.w }}</span></sc-for></div>
+              <div style="font:600 24px 'Noto Sans Hebrew',sans-serif;color:var(--muted);letter-spacing:.3px;margin-bottom:12px">{{ t.recent }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:9px"><sc-for list="{{ recents }}" as="c" hint-placeholder-count="4"><span onClick="{{ c.on }}" style="cursor:pointer;font:500 28px 'Noto Sans Hebrew',sans-serif;color:var(--text2);background:var(--surface);border:1px solid var(--line);padding:8px 15px;border-radius:18px">{{ c.w }}</span></sc-for></div>
             </div>
           </sc-if>
         </div>
@@ -176,41 +250,46 @@
 
       <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ true }}">
         <div data-screentop style="position:absolute;top:50px;left:0;right:0;bottom:0;display:flex;flex-direction:column">
-          <div style="padding:6px 20px 12px"><div style="font:600 23px 'Noto Sans Hebrew',sans-serif;color:var(--text)">הגדרות</div></div>
+          <div style="padding:34px 20px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px"><div style="font:600 46px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.settings }}</div><span onClick="{{ onCloseSettings }}" title="{{ t.close }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:48px;color:var(--muted);padding:4px;border-radius:50%" style-hover="background:var(--s2)">close</span></div>
           <div style="flex:1;overflow-y:auto;padding:0 20px 96px">
-            <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:18px;color:var(--accent)">text_fields</span><span style="font:600 12px 'Noto Sans Hebrew',sans-serif;color:var(--muted);letter-spacing:.3px">תצוגה</span></div>
+            <div style="margin-bottom:22px"><section data-langset dir="ltr" style="display:flex;width:50%;min-width:max-content;margin:0 auto;border:2px solid #c62828;border-radius:14px;overflow:hidden;flex-shrink:0"><sc-for list="{{ langOpts }}" as="l" hint-placeholder-count="2"><div onClick="{{ l.on }}" style="cursor:pointer;flex:1 1 auto;white-space:nowrap;text-align:center;padding:10px 12px;background:{{ l.bg }};color:{{ l.fg }};font:700 18px 'Noto Sans','Noto Sans Hebrew',sans-serif">{{ l.label }}</div></sc-for></section></div>
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:36px;color:var(--accent)">text_fields</span><span style="font:600 24px 'Noto Sans Hebrew',sans-serif;color:var(--muted);letter-spacing:.3px">{{ t.display }}</span></div>
             <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:20px">
-              <div style="padding:13px 15px;border-bottom:1px solid var(--line)">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px"><span style="font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text)">גודל הטקסט</span><span style="font:600 12px 'Noto Sans',sans-serif;color:var(--accent)">{{ fontPct }}%</span></div>
-                <div style="display:flex;align-items:center;gap:14px"><span onClick="{{ onFontDown }}" style="cursor:pointer;font:400 14px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">א</span><div style="flex:1;height:4px;border-radius:2px;background:var(--track);position:relative"><div style="position:absolute;right:0;top:0;height:100%;border-radius:2px;background:var(--accent);width:{{ fontSliderW }}"></div></div><span onClick="{{ onFontUp }}" style="cursor:pointer;font:400 22px 'Noto Sans Hebrew',sans-serif;color:var(--text)">א</span></div>
+              <div style="padding:24px 32px;border-bottom:1px solid var(--line)">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px"><span style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.textSize }}</span><span style="font:600 24px 'Noto Sans',sans-serif;color:var(--accent)">{{ fontPct }}%</span></div>
+                <div style="display:flex;align-items:center;gap:14px"><span onClick="{{ onFontDown }}" style="cursor:pointer;font:400 28px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">{{ t.aSmall }}</span><div style="flex:1;height:4px;border-radius:2px;background:var(--track);position:relative"><div style="position:absolute;right:0;top:0;height:100%;border-radius:2px;background:var(--accent);width:{{ fontSliderW }}"></div></div><span onClick="{{ onFontUp }}" style="cursor:pointer;font:400 44px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.aSmall }}</span></div>
               </div>
-              <div onClick="{{ onToggleTaamim }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)"><div><div style="font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text)">טעמי המקרא</div><div style="font:400 11px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:2px">בטקסט התנ״ך בלבד</div></div><div dir="ltr" style="width:46px;height:28px;border-radius:14px;background:{{ tgTaamimBg }};position:relative"><div style="position:absolute;top:3px;left:{{ tgTaamimX }};width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
-              <div onClick="{{ onToggleSerif }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)"><div><div style="font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text)">כתב נרקיסים</div><div style="font:400 11px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:2px">גופן עברי קלאסי</div></div><div dir="ltr" style="width:46px;height:28px;border-radius:14px;background:{{ tgSerifBg }};position:relative"><div style="position:absolute;top:3px;left:{{ tgSerifX }};width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
-              <div onClick="{{ onToggleTheme }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)"><div><div style="font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text)">מצב בהיר</div><div style="font:400 11px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:2px">רקע לבן במקום כהה</div></div><div dir="ltr" style="width:46px;height:28px;border-radius:14px;background:{{ tgThemeBg }};position:relative"><div style="position:absolute;top:3px;left:{{ tgThemeX }};width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
-              <div style="padding:13px 15px"><div style="font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text);margin-bottom:10px">ערכת נושא</div><div style="display:flex;gap:6px;background:var(--s2);border-radius:11px;padding:4px"><sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="3"><div onClick="{{ o.on }}" style="cursor:pointer;flex:1;text-align:center;padding:9px 0;border-radius:8px;background:{{ o.bg }};font:600 13px 'Noto Sans Hebrew',sans-serif;color:{{ o.fg }}">{{ o.label }}</div></sc-for></div><div style="font:400 11.5px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:9px">{{ themeSubtitle }}</div></div>
+              <div onClick="{{ onToggleTaamim }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:24px 32px;border-bottom:1px solid var(--line)"><div><div style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.taamim }}</div><div style="font:400 22px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:2px">{{ t.taamimSub }}</div></div><div dir="ltr" style="width:46px;height:28px;border-radius:14px;background:{{ tgTaamimBg }};position:relative"><div style="position:absolute;top:3px;left:{{ tgTaamimX }};width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+              <div onClick="{{ onToggleSerif }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:24px 32px;border-bottom:1px solid var(--line)"><div><div style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.serif }}</div><div style="font:400 22px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:2px">{{ t.serifSub }}</div></div><div dir="ltr" style="width:46px;height:28px;border-radius:14px;background:{{ tgSerifBg }};position:relative"><div style="position:absolute;top:3px;left:{{ tgSerifX }};width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+              <div onClick="{{ onToggleDigits }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:24px 32px;border-bottom:1px solid var(--line)"><div><div style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.digits }}</div><div style="font:400 22px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:2px">{{ t.digitsSub }}</div></div><div dir="ltr" style="width:46px;height:28px;border-radius:14px;background:{{ tgDigBg }};position:relative"><div style="position:absolute;top:3px;left:{{ tgDigX }};width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+              <div onClick="{{ onToggleTheme }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:24px 32px;border-bottom:1px solid var(--line)"><div><div style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.lightMode }}</div><div style="font:400 22px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:2px">{{ t.lightSub }}</div></div><div dir="ltr" style="width:46px;height:28px;border-radius:14px;background:{{ tgThemeBg }};position:relative"><div style="position:absolute;top:3px;left:{{ tgThemeX }};width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+              <div style="padding:24px 32px"><div style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text);margin-bottom:10px">{{ t.theme }}</div><div style="display:flex;gap:6px;background:var(--s2);border-radius:11px;padding:4px"><sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="3"><div onClick="{{ o.on }}" style="cursor:pointer;flex:1;text-align:center;padding:9px 0;border-radius:8px;background:{{ o.bg }};font:600 26px 'Noto Sans Hebrew',sans-serif;color:{{ o.fg }}">{{ o.label }}</div></sc-for></div><div style="font:400 23px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:9px">{{ themeSubtitle }}</div></div>
             </div>
-            <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:18px;color:var(--accent)">info</span><span style="font:600 12px 'Noto Sans Hebrew',sans-serif;color:var(--muted);letter-spacing:.3px">אודות</span></div>
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:36px;color:var(--accent)">info</span><span style="font:600 24px 'Noto Sans Hebrew',sans-serif;color:var(--muted);letter-spacing:.3px">{{ t.about }}</span></div>
             <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)"><span style="font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text)">מקור התנ״ך</span><span style="font:400 13px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">נוסח המסורה</span></div>
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 15px"><span style="font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text)">מקור הברית החדשה</span><span style="font:400 13px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">תרגום דעליטש*</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 32px;border-bottom:1px solid var(--line)"><span style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.srcOT }}</span><span style="font:400 26px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">{{ t.srcOTv }}</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 32px;border-bottom:1px solid var(--line)"><span style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.srcNT }}</span><span style="font:400 26px 'Noto Sans Hebrew',sans-serif;color:var(--muted)">{{ t.srcNTv }}</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:24px 32px;border-bottom:1px solid var(--line)"><span style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.srcKJV }}</span><span dir="ltr" style="font:400 24px 'Noto Sans','Noto Sans Hebrew',sans-serif;color:var(--muted);text-align:left">{{ t.srcKJVv }}</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:24px 32px"><span style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.srcBSB }}</span><span dir="ltr" style="font:400 24px 'Noto Sans','Noto Sans Hebrew',sans-serif;color:var(--muted);text-align:left">{{ t.srcBSBv }}</span></div>
             </div>
-            <div style="font:400 10.5px/1.7 'Noto Sans Hebrew',sans-serif;color:var(--faint);margin-top:14px;padding:0 2px">* לברית החדשה תרגומים רבים בעברית. אפליקציה זו מתעדפת את תרגום דעליטש המשתמש בעברית מקראית ונחשב לתרגום העברי הנאמן ביותר לכתבי הברית החדשה המקוריים. תרגום דעליטש כמעט ואינו מושפע מתאולוגיה (לעומת, לדוגמא, "התרגום החדש" הנפוץ בעיקר בקרב היהודים-משיחיים, תרגום המושפע באופן מובהק מהדוקטרינה הקלוויניסטית של המתרגמים).</div>
-            <div dir="ltr" style="text-align:center;font:400 11px 'Noto Sans',sans-serif;color:var(--faint);margin-top:22px;letter-spacing:.3px">{{ versionLine }}</div>
+            <div style="font:400 21px/1.7 'Noto Sans Hebrew',sans-serif;color:var(--faint);margin-top:14px;padding:0 2px">{{ t.footnote }}</div>
+            <div dir="ltr" style="text-align:center;font:400 22px 'Noto Sans',sans-serif;color:var(--faint);margin-top:22px;letter-spacing:.3px">{{ versionLine }}</div>
+            <div style="display:flex;justify-content:center;margin-top:12px"><a href="Admin.dc.html" style="font:400 20px 'Noto Sans Hebrew','Noto Sans',sans-serif;color:var(--faint);text-decoration:none" style-hover="color:var(--accent)">{{ t.admin }}</a></div>
           </div>
         </div>
       </sc-if>
 
       <sc-if value="{{ isBookmarks }}" hint-placeholder-val="{{ true }}">
         <div data-screentop style="position:absolute;top:50px;left:0;right:0;bottom:0;display:flex;flex-direction:column">
-          <div style="padding:6px 20px 0"><div style="font:600 23px 'Noto Sans Hebrew',sans-serif;color:var(--text);margin-bottom:12px">סימניות</div>
-            <div style="display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:4px;margin-bottom:14px"><sc-for list="{{ bmModes }}" as="t" hint-placeholder-count="2"><div onClick="{{ t.on }}" style="cursor:pointer;flex:1;text-align:center;padding:8px 0;border-radius:8px;background:{{ t.bg }};font:600 13px 'Noto Sans Hebrew',sans-serif;color:{{ t.fg }}">{{ t.he }}</div></sc-for></div>
+          <div style="padding:34px 20px 0"><div style="font:600 46px 'Noto Sans Hebrew',sans-serif;color:var(--text);margin-bottom:12px">{{ t.bookmarks }}</div>
+            <div style="display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:4px;margin-bottom:14px"><sc-for list="{{ bmModes }}" as="t" hint-placeholder-count="2"><div onClick="{{ t.on }}" style="cursor:pointer;flex:1;text-align:center;padding:8px 0;border-radius:8px;background:{{ t.bg }};font:600 26px 'Noto Sans Hebrew',sans-serif;color:{{ t.fg }}">{{ t.he }}</div></sc-for></div>
           </div>
           <div style="flex:1;overflow-y:auto;padding:0 20px 96px">
-            <sc-if value="{{ bmEmpty }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:50px 20px;color:var(--muted)"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:42px;color:var(--faint)">bookmark_border</span><div style="font:500 15px 'Noto Sans Hebrew',sans-serif;color:var(--text2);margin-top:12px">אין סימניות עדיין</div><div style="font:400 12.5px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:6px">בזמן הקריאה לחצו על הסימנייה למטה כדי לשמור</div></div></sc-if>
+            <sc-if value="{{ bmEmpty }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:50px 20px;color:var(--muted)"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:63px;color:var(--faint)">bookmark_border</span><div style="font:500 30px 'Noto Sans Hebrew',sans-serif;color:var(--text2);margin-top:12px">{{ t.bmEmpty }}</div><div style="font:400 25px 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-top:6px">{{ t.bmEmptySub }}</div></div></sc-if>
             <sc-for list="{{ bmRows }}" as="r" hint-placeholder-count="3">
-              <sc-if value="{{ r.header }}" hint-placeholder-val="{{ false }}"><div style="font:600 12px 'Noto Sans Hebrew',sans-serif;color:var(--accent);letter-spacing:.4px;margin:10px 2px 8px">{{ r.he }}</div></sc-if>
+              <sc-if value="{{ r.header }}" hint-placeholder-val="{{ false }}"><div style="font:600 24px 'Noto Sans Hebrew',sans-serif;color:var(--accent);letter-spacing:.4px;margin:10px 2px 8px">{{ r.he }}</div></sc-if>
               <sc-if value="{{ r.item }}" hint-placeholder-val="{{ true }}">
-                <div onClick="{{ r.onOpen }}" style="cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:10px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><span style="width:9px;height:9px;border-radius:3px;background:{{ r.color }}"></span><span style="font:600 12px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ r.ref }}</span><span style="flex:1"></span><span style="font:400 10.5px 'Noto Sans Hebrew',sans-serif;color:var(--faint)">{{ r.time }}</span><span onClick="{{ r.onDelete }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:18px;color:var(--faint)">close</span></div><div style="font:400 15px/1.7 'Noto Sans Hebrew',sans-serif;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.snippet }}</div></div>
+                <div onClick="{{ r.onOpen }}" style="cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:24px 30px;margin-bottom:14px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><span style="width:9px;height:9px;border-radius:3px;background:{{ r.color }}"></span><span style="font:600 24px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ r.ref }}</span><span style="flex:1"></span><span style="font:400 21px 'Noto Sans Hebrew',sans-serif;color:var(--faint)">{{ r.time }}</span><span onClick="{{ r.onDelete }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:36px;color:var(--faint)">close</span></div><div style="font:400 30px/1.7 'Noto Sans Hebrew',sans-serif;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.snippet }}</div></div>
               </sc-if>
             </sc-for>
           </div>
@@ -219,17 +298,25 @@
 
       <sc-if value="{{ showRate }}" hint-placeholder-val="{{ false }}">
         <div onClick="{{ onRateLater }}" style="position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:60"></div>
-        <div dir="rtl" style="position:absolute;left:26px;right:26px;top:50%;transform:translateY(-50%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px 22px;z-index:61;box-shadow:0 20px 50px rgba(0,0,0,.5);text-align:center">
-          <div style="font:600 20px 'Noto Sans Hebrew',sans-serif;color:var(--text);margin-bottom:8px">נהנים מהאפליקציה?</div>
-          <div style="font:400 14px/1.6 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-bottom:20px">דירוג קצר עוזר לנו מאוד ולוקח רק רגע.</div>
-          <div onClick="{{ onRateNow }}" style="cursor:pointer;background:var(--accent);color:var(--accentInk);font:600 15px 'Noto Sans Hebrew',sans-serif;padding:14px;border-radius:13px;margin-bottom:8px">{{ rateBtn }}</div>
-          <div onClick="{{ onRateLater }}" style="cursor:pointer;font:500 14px 'Noto Sans Hebrew',sans-serif;color:var(--muted);padding:8px">אחר כך</div>
+        <div dir="{{ uiDir }}" style="position:absolute;left:26px;right:26px;top:50%;transform:translateY(-50%);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px 22px;z-index:61;box-shadow:0 20px 50px rgba(0,0,0,.5);text-align:center">
+          <div style="font:600 40px 'Noto Sans Hebrew',sans-serif;color:var(--text);margin-bottom:8px">{{ t.rateQ }}</div>
+          <div style="font:400 28px/1.6 'Noto Sans Hebrew',sans-serif;color:var(--muted);margin-bottom:20px">{{ t.rateSub }}</div>
+          <div onClick="{{ onRateNow }}" style="cursor:pointer;background:var(--accent);color:var(--accentInk);font:600 30px 'Noto Sans Hebrew',sans-serif;padding:14px;border-radius:13px;margin-bottom:8px">{{ rateBtn }}</div>
+          <div onClick="{{ onRateLater }}" style="cursor:pointer;font:500 28px 'Noto Sans Hebrew',sans-serif;color:var(--muted);padding:8px">{{ t.later }}</div>
         </div>
       </sc-if>
 
       <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
         <div id="nav" style="position:absolute;bottom:0;left:0;right:0;height:72px;background:var(--surface);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;padding:8px 8px 10px;z-index:30">
-          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5"><div onClick="{{ n.on }}" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:23px;color:{{ n.color }}">{{ n.icon }}</span><span style="font:600 10px 'Noto Sans Hebrew',sans-serif;color:{{ n.color }}">{{ n.label }}</span></div></sc-for>
+          <div data-siderail-head style="display:none">{{ t.railHead }}</div>
+          <section data-langnav dir="ltr" style="display:flex;width:50%;min-width:max-content;align-self:center;border:2px solid #c62828;border-radius:14px;overflow:hidden;flex-shrink:0;display:none;margin:2px 0 14px"><sc-for list="{{ langOpts }}" as="l" hint-placeholder-count="2"><div onClick="{{ l.on }}" style="cursor:pointer;flex:1 1 auto;white-space:nowrap;text-align:center;padding:10px 12px;background:{{ l.bg }};color:{{ l.fg }};font:700 18px 'Noto Sans','Noto Sans Hebrew',sans-serif">{{ l.label }}</div></sc-for></section>
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5"><div onClick="{{ n.on }}" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px"><span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:46px;color:{{ n.color }}">{{ n.icon }}</span><span style="font:600 20px 'Noto Sans Hebrew',sans-serif;color:{{ n.color }}">{{ n.label }}</span></div></sc-for>
+          <sc-if value="{{ hasAd }}" hint-placeholder-val="{{ false }}">
+            <a data-promo href="{{ adLink }}" target="_blank" rel="noopener sponsored" style="display:none;margin-top:auto;padding-top:18px;text-decoration:none;flex-direction:column;align-items:center;gap:10px">
+              {{ adImgEl }}
+              <sc-if value="{{ adMulti }}" hint-placeholder-val="{{ false }}"><span style="display:flex;gap:6px;justify-content:center"><sc-for list="{{ adDots }}" as="d" hint-placeholder-count="2"><span style="width:7px;height:7px;border-radius:50%;background:{{ d.bg }}"></span></sc-for></span></sc-if>
+            </a>
+          </sc-if>
         </div>
       </sc-if>
 
@@ -241,7 +328,7 @@
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#121519"/><rect x="30" y="26" width="40" height="48" rx="4" fill="none" stroke="#56a8bd" stroke-width="3"/><line x1="50" y1="30" x2="50" y2="70" stroke="#56a8bd" stroke-width="2"/></svg></template></x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:450,&quot;height&quot;:904}}">
 class Component extends DCLogic {
-  state = { screen:'home', book:'genesis', chapter:1, libTab:'torah', taamim:false, nikud:true, serif:false, fontPct:100, sheet:null, query:'', bmMode:'time', light:false, theme:'normal', broad:false, showRate:false, bmAdd:false, bookmarks:[] };
+  state = { screen:'home', book:'genesis', chapter:1, libTab:'torah', taamim:false, nikud:true, serif:true, fontPct:120, sheet:null, query:'', bmMode:'time', light:false, theme:'cream', picker:null, lang:'he', ads:{he:[],en:[]}, adIdx:0, numDigits:false, cols:{he:true,kjv:false,bsb:false}, broad:false, showRate:false, bmAdd:false, bookmarks:[] };
 
   SEC = {
     torah:['תורה',[['genesis','בראשית',50],['exodus','שמות',40],['leviticus','ויקרא',27],['numbers','במדבר',36],['deuteronomy','דברים',34]]],
@@ -271,14 +358,56 @@ class Component extends DCLogic {
     if(!bm){ const d=864e5,n=Date.now(); bm=[{key:'psalms:23',book:'psalms',chapter:23,color:'#56a8bd',ts:n-2*d},{key:'genesis:1',book:'genesis',chapter:1,color:'#c9a45a',ts:n-7*d},{key:'john:1',book:'john',chapter:1,color:'#cf7d8f',ts:n-15*d}]; this.persist(bm); }
     this.setState({bookmarks:bm});
     try{ this.lastRead=JSON.parse(localStorage.getItem('hb_lastread')||'null'); }catch(e){}
-    this.loadText(this.state.book); this.loadDaily(); this.loadAllText();
+    this.loadText(this.state.book); this.loadAllText();
     document.addEventListener('copy', this.onCopy);
     document.addEventListener('touchstart', this.swipeStart, {passive:true});
     document.addEventListener('touchend', this.swipeEnd, {passive:true});
     try{ const th=JSON.parse(localStorage.getItem('hb_theme')||'null'); if(th){ this.setState({light:!!th.light,theme:th.theme||'normal'}); } }catch(e){}
+    try{ const vw=JSON.parse(localStorage.getItem('hb_view')||'null'); if(vw) this.setState({numDigits:!!vw.numDigits, cols:(()=>{const c={he:true,kjv:false,bsb:false,...(vw.cols||{})}; if(c.he&&c.kjv&&c.bsb) c.bsb=false; return c;})()}); }catch(e){}
+    try{ const lg=localStorage.getItem('hb_lang'); if(lg==='en'||lg==='he') this.setState({lang:lg}); }catch(e){}
     this.applyThemeColor();
     this.startUsageTimer();
+    this._rs=()=>this.forceUpdate(); window.addEventListener('resize', this._rs);
+    this.loadAds(); this._adT=setInterval(()=>this.setState(s=>({adIdx:s.adIdx+1})),15000);
   }
+  I18N = {
+    he:{tanakh:'תנ״ך',nt:'הברית החדשה',contReading:'המשך קריאה',cont:'המשך',daily:'הקריאה היומית',readNow:'קרא עכשיו',library:'ספרייה',chapter:'פרק',taamimShort:'טעמים',fontDn:'א-',fontUp:'א+',noTextA:'הטקסט של',noTextB:'עדיין לא נוסף',addToFile:'הוסיפו אותו לקובץ',bmColor:'צבע הסימנייה',removeBm:'הסר סימנייה',searchPh:'חפש מילה או ביטוי',broad:'חיפוש נרחב',broadSub:'כולל מילים שהביטוי מופיע בתוכן',noResults:'לא נמצאו תוצאות',recent:'חיפושים אחרונים',settings:'הגדרות',close:'סגור',display:'תצוגה',textSize:'גודל הטקסט',aSmall:'א',taamim:'טעמי המקרא',taamimSub:'בטקסט התנ״ך בלבד',serif:'כתב נרקיסים',serifSub:'גופן עברי קלאסי',digits:'מספרי פסוקים בספרות',digitsSub:'1, 2, 3 במקום א, ב, ג',lightMode:'מצב בהיר',lightSub:'רקע לבן במקום כהה',theme:'ערכת נושא',about:'אודות',srcOT:'מקור התנ״ך',srcOTv:'נוסח המסורה',srcNT:'מקור הברית החדשה',srcNTv:'תרגום דעליטש*',srcKJV:'תרגום אנגלי · KJV',srcKJVv:'King James Version, 1769',srcBSB:'תרגום אנגלי · BSB',srcBSBv:'Berean Standard Bible',footnote:'* לברית החדשה תרגומים רבים בעברית. אפליקציה זו מתעדפת את תרגום דעליטש המשתמש בעברית מקראית ונחשב לתרגום העברי הנאמן ביותר לכתבי הברית החדשה המקוריים. שני התרגומים לאנגלית (KJV ו‑BSB) הם בנחלת הכלל.',admin:'ניהול',adAlt:'פרסומת',bookmarks:'סימניות',bmEmpty:'אין סימניות עדיין',bmEmptySub:'בזמן הקריאה לחצו על הסימנייה למטה כדי לשמור',rateQ:'נהנים מהאפליקציה?',rateSub:'דירוג קצר עוזר לנו מאוד ולוקח רק רגע.',later:'אחר כך',railHead:'ספרי התנ״ך והברית החדשה',
+      nav:['בית','ספרייה','חיפוש','סימניות','הגדרות'],sec:{torah:'תורה',neviim:'נביאים',ketuvim:'כתובים',nt:'הברית החדשה'},gospels:'הבשורות',epistles:'האגרות',chapters:'פרקים',mins:'5 דקות',verses:'פסוקים',of:'מתוך',loadingSearch:'טוען את כל הספרים לחיפוש…',results:'תוצאות · בכל הספרים',byTime:'לפי זמן',byBook:'לפי ספר',themes:['רגיל','קרם','סתיו'],themeSubs:['ערכת ברירת המחדל','ערכת צבעים קרמית במיוחד','ערכת צבעים גרפיט'],rateBtn:'דרג את האפליקציה',chapPicker:'פרקים',bookPicker:'בחרו ספר',hebrew:'עברית',psalm:'מִזְמוֹר',perek:'פֶּרֶק'},
+    en:{tanakh:'Old Testament',nt:'New Testament',contReading:'Continue reading',cont:'Continue',daily:'Daily reading',readNow:'Read now',library:'Library',chapter:'Chapter',taamimShort:'Accents',fontDn:'A-',fontUp:'A+',noTextA:'The text of',noTextB:'has not been added yet',addToFile:'Add it to the file',bmColor:'Bookmark color',removeBm:'Remove bookmark',searchPh:'Search a Hebrew word or phrase',broad:'Broad search',broadSub:'Includes words that contain the phrase',noResults:'No results',recent:'Recent searches',settings:'Settings',close:'Close',display:'Display',textSize:'Text size',aSmall:'A',taamim:'Cantillation marks',taamimSub:'Hebrew Old Testament only',serif:'Narkissim typeface',serifSub:'Classic Hebrew typeface',digits:'Verse numbers as digits',digitsSub:'1, 2, 3 instead of א, ב, ג',lightMode:'Light mode',lightSub:'White background instead of dark',theme:'Theme',about:'About',srcOT:'Old Testament source',srcOTv:'Masoretic Text',srcNT:'New Testament source',srcNTv:'Delitzsch translation*',srcKJV:'English · KJV',srcKJVv:'King James Version, 1769',srcBSB:'English · BSB',srcBSBv:'Berean Standard Bible',footnote:'* There are many Hebrew translations of the New Testament. This app uses the Delitzsch translation, which is written in Biblical Hebrew and regarded as the Hebrew translation most faithful to the original New Testament texts. Both English translations (KJV and BSB) are in the public domain.',admin:'Admin',adAlt:'Advertisement',bookmarks:'Bookmarks',bmEmpty:'No bookmarks yet',bmEmptySub:'While reading, tap the bookmark below to save',rateQ:'Enjoying the app?',rateSub:'A quick rating helps us a lot and only takes a moment.',later:'Later',railHead:'The Old & New Testament',
+      nav:['Home','Library','Search','Bookmarks','Settings'],sec:{torah:'Torah',neviim:'Prophets',ketuvim:'Writings',nt:'New Testament'},gospels:'Gospels',epistles:'Epistles',chapters:'chapters',mins:'5 min',verses:'verses',of:'of',loadingSearch:'Loading all books for search…',results:'results · all books',byTime:'By date',byBook:'By book',themes:['Default','Cream','Autumn'],themeSubs:['Default color scheme','Warm cream color scheme','Graphite color scheme'],rateBtn:'Rate the app',chapPicker:'Chapters',bookPicker:'Choose a book',hebrew:'Hebrew',psalm:'Psalm',perek:'Chapter'}
+  };
+  BOOK_EN = {genesis:'Genesis',exodus:'Exodus',leviticus:'Leviticus',numbers:'Numbers',deuteronomy:'Deuteronomy',joshua:'Joshua',judges:'Judges',samuel1:'1 Samuel',samuel2:'2 Samuel',kings1:'1 Kings',kings2:'2 Kings',isaiah:'Isaiah',jeremiah:'Jeremiah',ezekiel:'Ezekiel',hosea:'Hosea',joel:'Joel',amos:'Amos',obadiah:'Obadiah',jonah:'Jonah',micah:'Micah',nahum:'Nahum',habakkuk:'Habakkuk',zephaniah:'Zephaniah',haggai:'Haggai',zechariah:'Zechariah',malachi:'Malachi',psalms:'Psalms',proverbs:'Proverbs',job:'Job',song:'Song of Songs',ruth:'Ruth',lamentations:'Lamentations',ecclesiastes:'Ecclesiastes',esther:'Esther',daniel:'Daniel',ezra:'Ezra',nehemiah:'Nehemiah',chron1:'1 Chronicles',chron2:'2 Chronicles',matthew:'Matthew',mark:'Mark',luke:'Luke',john:'John',acts:'Acts',romans:'Romans',cor1:'1 Corinthians',cor2:'2 Corinthians',gal:'Galatians',eph:'Ephesians',phil:'Philippians',col:'Colossians',thess1:'1 Thessalonians',thess2:'2 Thessalonians',tim1:'1 Timothy',tim2:'2 Timothy',titus:'Titus',philemon:'Philemon',heb:'Hebrews',james:'James',pet1:'1 Peter',pet2:'2 Peter',john1:'1 John',john2:'2 John',john3:'3 John',jude:'Jude',revelation:'Revelation'};
+  loadAds(){
+    const clean=a=>({he:(a&&a.he||[]).filter(x=>x&&x.img).slice(0,5), en:(a&&a.en||[]).filter(x=>x&&x.img).slice(0,5)});
+    let draft=null; try{ if(localStorage.getItem('hb_promo_test')==='1') draft=JSON.parse(localStorage.getItem('hb_ads_draft')||'null'); else localStorage.removeItem('hb_ads_draft'); }catch(e){}
+    if(draft){ this.setState({ads:clean(draft)}); return; }
+    const get=u=>fetch(u+'?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
+    get('data/promo.json').catch(()=>get('data/ads.json')).then(j=>{ if(j) this.setState({ads:clean(j)}); }).catch(()=>{});
+  }
+  componentWillUnmount(){ clearInterval(this._adT); }
+  en(){ return this.state.lang==='en'; }
+  L(){ return this.I18N[this.state.lang]||this.I18N.he; }
+  num(n){ return (this.en()||this.state.numDigits)?String(n):this.gem(n); }
+  chapLbl(n){ return this.en()?String(n):this.gershayim(n); }
+  chapBig(n){ return this.en()?String(n):this.gem(n); }
+  setLang(l){ this.setState({lang:l}); try{ localStorage.setItem('hb_lang',l); document.documentElement.lang=l; }catch(e){} }
+  isWide(){ try{ return window.innerWidth>=760; }catch(e){ return false; } }
+  TR = { kjv:['KJV','King James Version'], bsb:['BSB','Berean Standard Bible'] };
+  trFetched = { kjv:{}, bsb:{} }; trParsed = { kjv:{}, bsb:{} };
+  loadTr(tr,id){
+    if(this.trFetched[tr][id]!==undefined) return;
+    this.trFetched[tr][id]=null;
+    fetch('data/'+tr+'/'+id+'.txt').then(r=>r.ok?r.text():'').then(t=>{ this.trFetched[tr][id]=t||''; delete this.trParsed[tr][id]; this.forceUpdate(); }).catch(()=>{ this.trFetched[tr][id]=''; });
+  }
+  parseTr(tr,id){
+    if(this.trParsed[tr][id]) return this.trParsed[tr][id];
+    const raw=this.trFetched[tr][id]; if(!raw) return {};
+    const out={}; raw.split(/\n/).forEach(line=>{ if(!line||line[0]==='#')return; const m=/^(\d+):(\d+)\s+(.+)$/.exec(line.trim()); if(!m)return; (out[m[1]]=out[m[1]]||{})[m[2]]=m[3]; });
+    return (this.trParsed[tr][id]=out);
+  }
+  edits(){ if(this._edT && Date.now()-this._edT<1500) return this._ed; this._edT=Date.now(); try{ this._ed=JSON.parse(localStorage.getItem('hb_edits')||'{}'); }catch(e){ this._ed={}; } return this._ed; }
+  persistView(){ try{ localStorage.setItem('hb_view', JSON.stringify({numDigits:this.state.numDigits,cols:this.state.cols})); }catch(e){} }
+  toggleCol(k){ this.setState(s=>{ const c={...s.cols,[k]:!s.cols[k]}; if(!c.he&&!c.kjv&&!c.bsb) return null; let ord=(this._colOrder||['he','kjv','bsb'].filter(x=>s.cols[x])).filter(x=>x!==k&&c[x]); if(c[k]) ord.push(k); while(ord.length>2){ c[ord.shift()]=false; } this._colOrder=ord; return {cols:c}; }, ()=>this.persistView()); }
   persistTheme(){ try{ localStorage.setItem('hb_theme', JSON.stringify({light:this.state.light,theme:this.state.theme})); }catch(e){} }
   setTheme(t){ this.setState({theme:t,light:false},()=>{this.applyThemeColor();this.persistTheme();}); }
   ratePlatform(){ return /iphone|ipad|ipod/i.test(navigator.userAgent||'')?'apple':'google'; }
@@ -340,22 +469,22 @@ class Component extends DCLogic {
 
   swipeStart=(e)=>{ if(this.state.screen!=='reading')return; const t=e.touches&&e.touches[0]; if(!t)return; if(!(e.target&&e.target.closest&&e.target.closest('#readbody')))return; this._sx=t.clientX; this._sy=t.clientY; this._st=Date.now(); };
   swipeEnd=(e)=>{ const t=e.changedTouches&&e.changedTouches[0]; if(!t||this._sx==null)return; const dx=t.clientX-this._sx, dy=t.clientY-this._sy, dt=Date.now()-this._st; this._sx=null; if(dt>700)return; if(Math.abs(dx)<55||Math.abs(dx)<Math.abs(dy)*1.4)return; const st=this.state; const maxCh=this.bookChapters(st.book); if(dx>0){ if(st.chapter<maxCh)this.setState({chapter:st.chapter+1,bmAdd:false,sheet:null}); } else { if(st.chapter>1)this.setState({chapter:st.chapter-1,bmAdd:false,sheet:null}); } };
-  bookHe(id){ for(const k in this.SEC){ const f=this.SEC[k][1].find(b=>b[0]===id); if(f)return f[1]; } return id; }
+  bookHe(id){ if(this.state.lang==='en'&&this.BOOK_EN[id]) return this.BOOK_EN[id]; for(const k in this.SEC){ const f=this.SEC[k][1].find(b=>b[0]===id); if(f)return f[1]; } return id; }
   bookChapters(id){ for(const k in this.SEC){ const f=this.SEC[k][1].find(b=>b[0]===id); if(f)return f[2]; } return 1; }
   sectionOf(id){ for(const k in this.SEC){ if(this.SEC[k][1].some(b=>b[0]===id))return k; } return 'torah'; }
   isOT(id){ return this.sectionOf(id)!=='nt'; }
   orderIndex(){ if(this._ord)return this._ord; const o={}; let i=0; for(const k in this.SEC) this.SEC[k][1].forEach(b=>o[b[0]]=i++); this._ord=o; return o; }
-  rel(ts){ const d=Date.now()-ts, day=864e5; if(d<36e5)return 'לפני שעה'; if(d<day)return 'היום'; const n=Math.floor(d/day); if(n===1)return 'אתמול'; if(n<7)return 'לפני '+n+' ימים'; if(n<14)return 'לפני שבוע'; if(n<30)return 'לפני '+Math.floor(n/7)+' שבועות'; if(n<365)return 'לפני '+Math.floor(n/30)+' חודשים'; return 'לפני שנה'; }
+  rel(ts){ const d=Date.now()-ts, day=864e5; if(this.en()){ if(d<36e5)return 'within the hour'; if(d<day)return 'today'; const n=Math.floor(d/day); if(n===1)return 'yesterday'; if(n<7)return n+' days ago'; if(n<14)return 'a week ago'; if(n<30)return Math.floor(n/7)+' weeks ago'; if(n<365)return Math.floor(n/30)+' months ago'; return 'a year ago'; } if(d<36e5)return 'לפני שעה'; if(d<day)return 'היום'; const n=Math.floor(d/day); if(n===1)return 'אתמול'; if(n<7)return 'לפני '+n+' ימים'; if(n<14)return 'לפני שבוע'; if(n<30)return 'לפני '+Math.floor(n/7)+' שבועות'; if(n<365)return 'לפני '+Math.floor(n/30)+' חודשים'; return 'לפני שנה'; }
 
   disp(w){ let d=w; if(!this.state.taamim) d=this.stripT(d); if(!this.state.nikud) d=this.stripN(d); return d; }
 
 
-  greetingFor(){ const h=new Date().getHours(); if(h>=5&&h<12)return 'בּוֹקֶר טוֹב'; if(h>=12&&h<17)return 'צׇהֳרַיִם טוֹבִים'; if(h>=17&&h<21)return 'עֶרֶב טוֹב'; return 'לַיְלָה טוֹב'; }
+  greetingFor(){ const h=new Date().getHours(); if(this.en()){ if(h>=5&&h<12)return 'Good morning'; if(h>=12&&h<17)return 'Good afternoon'; if(h>=17&&h<21)return 'Good evening'; return 'Good night'; } if(h>=5&&h<12)return 'בּוֹקֶר טוֹב'; if(h>=12&&h<17)return 'צׇהֳרַיִם טוֹבִים'; if(h>=17&&h<21)return 'עֶרֶב טוֹב'; return 'לַיְלָה טוֹב'; }
 
   themeVars(mode){ if(mode==='winter') return '--bg:#202b2e;--surface:#2a3639;--s2:#344143;--line:rgba(255,255,255,.08);--text:#e8e0d2;--text2:#b3a99a;--muted:#8b958f;--faint:#69736f;--accent:#e29a34;--accentInk:#241a10;--track:rgba(255,255,255,.15);--disabled:#4d5856;--dailyCard:linear-gradient(158deg,#2c3a42,#222e31);--dailyBorder:rgba(120,150,165,.32);--homebar:rgba(255,255,255,.25);--gold:#e29a34';
     if(mode==='fun') return '--bg:#f3e7d7;--surface:#fbf4ea;--s2:#ece0cf;--line:rgba(80,50,30,.12);--text:#3c2f26;--text2:#6b5a4c;--muted:#917c68;--faint:#b6a690;--accent:#c8643f;--accentInk:#ffffff;--track:rgba(80,50,30,.16);--disabled:#d6c8b6;--dailyCard:linear-gradient(158deg,#f7ddc6,#fcefe1);--dailyBorder:rgba(200,100,63,.38);--homebar:rgba(60,40,25,.25);--gold:#b07d3a';
     return mode==='light'
-    ? '--bg:#f4f2ec;--surface:#ffffff;--s2:#ebedf0;--line:rgba(0,0,0,.09);--text:#1b2024;--text2:#4a545d;--muted:#727c86;--faint:#a2abb3;--accent:#2f8aa0;--accentInk:#ffffff;--track:rgba(0,0,0,.16);--disabled:#cdd3d7;--dailyCard:linear-gradient(158deg,#e4f1f4,#f3f8f9);--dailyBorder:rgba(47,138,160,.4);--homebar:rgba(0,0,0,.22);--gold:#b5852f'
+    ? '--bg:#ffffff;--surface:#f7f8fa;--s2:#eceff2;--line:rgba(0,0,0,.09);--text:#1b2024;--text2:#4a545d;--muted:#727c86;--faint:#a2abb3;--accent:#2f8aa0;--accentInk:#ffffff;--track:rgba(0,0,0,.16);--disabled:#cdd3d7;--dailyCard:linear-gradient(158deg,#e4f1f4,#f3f8f9);--dailyBorder:rgba(47,138,160,.4);--homebar:rgba(0,0,0,.22);--gold:#b5852f'
     : '--bg:#121519;--surface:#191e24;--s2:#212830;--line:rgba(255,255,255,.07);--text:#e6eaee;--text2:#aab3bc;--muted:#88929c;--faint:#6b7681;--accent:#56a8bd;--accentInk:#06222a;--track:rgba(255,255,255,.14);--disabled:#3a444e;--dailyCard:linear-gradient(158deg,#10282e,#161d23);--dailyBorder:rgba(86,168,189,.3);--homebar:rgba(255,255,255,.28);--gold:#e6b854'; }
 
   renderVals(){
@@ -364,7 +493,8 @@ class Component extends DCLogic {
     const tbg=tmode==='fun'?'radial-gradient(120% 90% at 50% 0%,#f7e8d6,#e7d2b8 75%)':(tmode==='light'?'radial-gradient(120% 90% at 50% 0%,#eef1f3,#ccd4da 75%)':(tmode==='winter'?'radial-gradient(120% 90% at 50% 0%,#2a3639,#171f21 75%)':'radial-gradient(120% 90% at 50% 0%,#16202a,#0a0c0e 70%)'));
     const stageStyle='min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;background:'+tbg+';'+this.themeVars(tmode);
 
-    const navDef=[['home','בית','home'],['book_2','ספרייה','library'],['search','חיפוש','search'],['bookmark','סימניות','bookmarks'],['settings','הגדרות','settings']];
+    const t=this.L(); const isEn=this.en();
+    const navDef=[['home',t.nav[0],'home'],['book_2',t.nav[1],'library'],['search',t.nav[2],'search'],['bookmark',t.nav[3],'bookmarks'],['settings',t.nav[4],'settings']];
     const nav=navDef.map(([icon,label,scr])=>({icon,label,color:(S===scr?'var(--accent)':'var(--faint)'),on:()=>this.setState({screen:scr,sheet:null,bmAdd:false})}));
 
     // HOME
@@ -373,18 +503,20 @@ class Component extends DCLogic {
     const plan=list[day%list.length];
     this.loadText(plan.b);
     const planCh=this.parse(plan.b)[plan.c]||[];
-    const snippet=planCh.slice(0,2).map(v=>this.stripT(v.text)).join(' ');
+    const enTr=(st.cols&&st.cols.bsb&&!st.cols.kjv)?'bsb':'kjv';
+    let snippet=planCh.slice(0,2).map(v=>this.stripT(v.text)).join(' ');
+    if(st.lang==='en'){ this.loadTr(enTr,plan.b); const ech=this.parseTr(enTr,plan.b)[plan.c]||{}; const es=[1,2].map(n=>ech[n]).filter(Boolean).join(' '); if(es) snippet=es; }
 
     // LIBRARY
-    const libTabs=Object.keys(this.SEC).map(k=>({he:this.SEC[k][0],fg:st.libTab===k?'var(--accentInk)':'var(--text2)',bg:st.libTab===k?'var(--accent)':'var(--surface)',bd:st.libTab===k?'none':'1px solid var(--line)',on:()=>this.setState({libTab:k})}));
-    const mkBook=(b)=>({isBook:true,he:b[1],sub:b[2]+' פרקים',on:()=>{ this.loadText(b[0]); this.setState({book:b[0],chapter:1,screen:'reading',bmAdd:false}); }});
+    const libTabs=Object.keys(this.SEC).map(k=>({he:t.sec[k],fg:st.libTab===k?'var(--accentInk)':'var(--text2)',bg:st.libTab===k?'var(--accent)':'var(--surface)',bd:st.libTab===k?'none':'1px solid var(--line)',on:()=>this.setState({libTab:k})}));
+    const mkBook=(b)=>({isBook:true,he:this.bookHe(b[0]),sub:b[2]+' '+t.chapters,on:()=>{ this.loadText(b[0]); this.setState({book:b[0],chapter:1,screen:'reading',bmAdd:false}); }});
     const sbooks=this.SEC[st.libTab][1];
     let libRows=[];
     if(st.libTab!=='nt'){ libRows=sbooks.map(mkBook); }
     else { sbooks.forEach((b,i)=>{
-      if(i===0) libRows.push({isHeader:true,he:'הבשורות'});
+      if(i===0) libRows.push({isHeader:true,he:t.gospels});
       if(i===4) libRows.push({isGap:true});
-      if(i===5){ libRows.push({isGap:true}); libRows.push({isHeader:true,he:'האגרות'}); }
+      if(i===5){ libRows.push({isGap:true}); libRows.push({isHeader:true,he:t.epistles}); }
       if(b[0]==='revelation') libRows.push({isGap:true});
       libRows.push(mkBook(b));
     }); }
@@ -392,7 +524,16 @@ class Component extends DCLogic {
     // READING
     const chapVerses=this.parse(st.book)[st.chapter]||[];
     const hasText=chapVerses.length>0;
-    const verses=chapVerses.map(v=>({ nHe:this.gem(v.n), vnum:v.n, words:v.text.split(/\s+/).filter(Boolean).map(w=>({disp:this.disp(w)+' '})) }));
+    const cols=st.cols||{he:true}; const engOn=['kjv','bsb'].filter(k=>cols[k]);
+    engOn.forEach(k=>this.loadTr(k,st.book));
+    const ed=this.edits(); const edHe=ed['text/'+st.book]||{};
+    const engCh=engOn.map(k=>({k, ch:this.parseTr(k,st.book)[st.chapter]||{}, ov:ed[k+'/'+st.book]||{}}));
+    const nums=new Set(chapVerses.map(v=>v.n)); engCh.forEach(e=>Object.keys(e.ch).forEach(n=>nums.add(+n)));
+    const heMap={}; chapVerses.forEach(v=>heMap[v.n]=v.text);
+    const verses=[...nums].sort((a,b)=>a-b).map(n=>{ const key=st.chapter+':'+n; const heT=edHe[key]!=null?edHe[key]:(heMap[n]||'');
+      return { nHe:this.num(n), vnum:n, words:(cols.he?heT.split(/\s+/).filter(Boolean):[]).map(w=>({disp:this.disp(w)+' '})),
+        eng:engCh.map(e=>({text:e.ov[key]!=null?e.ov[key]:(e.ch[n]||'')})) }; });
+    const nCols=(cols.he?1:0)+engOn.length; const wide=this.isWide();
     const maxCh=this.bookChapters(st.book);
     const curKey=st.book+':'+st.chapter; const curBm=(st.bookmarks||[]).find(b=>b.key===curKey);
     const bmColors=this.BMCOLORS.map(c=>({color:c,ring:(curBm&&curBm.color===c)?'3px solid var(--text)':'3px solid transparent',on:()=>this.addBookmark(c)}));
@@ -401,19 +542,19 @@ class Component extends DCLogic {
     const q=st.query.trim(), qn=this.norm(q);
     let results=[],count='';
     if(qn){
-      if(!this.searchIndex){ count='טוען את כל הספרים לחיפוש…'; }
+      if(!this.searchIndex){ count=t.loadingSearch; }
       else {
         const hits=this.searchIndex.filter(r=> st.broad ? r.words.some(w=>w.includes(qn)) : r.words.includes(qn));
-        count=hits.length.toLocaleString('he')+' תוצאות · בכל הספרים';
-        results=hits.slice(0,60).map(r=>({ ref:this.bookHe(r.id)+' '+this.gem(r.c)+'׳ '+this.gem(r.v)+'׳', on:()=>{ this.setState({book:r.id,chapter:r.c,screen:'reading',sheet:null,bmAdd:false}); }, words:r.text.split(/\s+/).filter(Boolean).map(w=>{ const nw=this.norm(w); const hit= st.broad? nw.includes(qn): nw===qn; return {disp:this.stripT(w)+' ',color:hit?'var(--accent)':'var(--text2)',weight:hit?'600':'400'}; }) }));
+        count=hits.length.toLocaleString(isEn?'en':'he')+' '+t.results;
+        results=hits.slice(0,60).map(r=>({ ref:isEn?(this.bookHe(r.id)+' '+r.c+':'+r.v):(this.bookHe(r.id)+' '+this.gem(r.c)+'׳ '+this.gem(r.v)+'׳'), on:()=>{ this.setState({book:r.id,chapter:r.c,screen:'reading',sheet:null,bmAdd:false}); }, words:r.text.split(/\s+/).filter(Boolean).map(w=>{ const nw=this.norm(w); const hit= st.broad? nw.includes(qn): nw===qn; return {disp:this.stripT(w)+' ',color:hit?'var(--accent)':'var(--text2)',weight:hit?'600':'400'}; }) }));
       }
     }
     const recents=['אוֹר','חֶסֶד','בְּרֵאשִׁית','יְשׁוּעָה'].map(w=>({w,on:()=>this.setState({query:w})}));
 
     // BOOKMARKS
-    const bmModes=[['time','לפי זמן'],['book','לפי ספר']].map(([k,he])=>({he,bg:st.bmMode===k?'var(--s2)':'transparent',fg:st.bmMode===k?'var(--accent)':'var(--muted)',on:()=>this.setState({bmMode:k})}));
+    const bmModes=[['time',t.byTime],['book',t.byBook]].map(([k,he])=>({he,bg:st.bmMode===k?'var(--s2)':'transparent',fg:st.bmMode===k?'var(--accent)':'var(--muted)',on:()=>this.setState({bmMode:k})}));
     const bms=st.bookmarks||[];
-    const mk=(b)=>{ const ch=this.parse(b.book)[b.chapter]||[]; return {item:true,header:false,color:b.color,ref:this.bookHe(b.book)+' '+this.gem(b.chapter),snippet:ch.length?this.stripT(ch[0].text):'…',time:this.rel(b.ts),onOpen:()=>{ this.loadText(b.book); this.setState({book:b.book,chapter:b.chapter,screen:'reading',sheet:null,bmAdd:false}); },onDelete:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.removeBookmark(b.key); }}; };
+    const mk=(b)=>{ const ch=this.parse(b.book)[b.chapter]||[]; return {item:true,header:false,color:b.color,ref:this.bookHe(b.book)+' '+this.chapBig(b.chapter),snippet:ch.length?this.stripT(ch[0].text):'…',time:this.rel(b.ts),onOpen:()=>{ this.loadText(b.book); this.setState({book:b.book,chapter:b.chapter,screen:'reading',sheet:null,bmAdd:false}); },onDelete:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.removeBookmark(b.key); }}; };
     let bmRows=[];
     if(st.bmMode==='time'){ bmRows=[...bms].sort((a,b)=>b.ts-a.ts).map(mk); }
     else { const ord=this.orderIndex(); const sorted=[...bms].sort((a,b)=>(ord[a.book]-ord[b.book])||(a.chapter-b.chapter)); let cur=null; sorted.forEach(b=>{ if(b.book!==cur){ cur=b.book; bmRows.push({header:true,item:false,he:this.bookHe(b.book)}); } bmRows.push(mk(b)); }); }
@@ -424,18 +565,25 @@ class Component extends DCLogic {
     const contTotal=this.bookChapters(cont.book);
 
     return {
-      stageStyle, versionLine:'Version 1.21   Build 07.01.2026',
+      stageStyle, versionLine:'Version 2.0   Build 09.27.2026', t, lang:st.lang, uiDir:isEn?'ltr':'rtl',
+      ...(()=>{ const list=(st.ads&&st.ads[st.lang])||[]; if(!list.length) return {hasAd:false,adImg:'',adImgEl:null,adLink:'#',adMulti:false,adDots:[]}; const i=st.adIdx%list.length; return {hasAd:true,adImg:list[i].img,adImgEl:React.createElement('img',{src:list[i].img,alt:t.adAlt,style:{display:'block',width:'75%',margin:'0 auto',maxHeight:'min(33vh, 315px)',objectFit:'contain',borderRadius:12}}),adLink:list[i].link||'#',adMulti:list.length>1,adDots:list.map((_,j)=>({bg:j===i?'var(--accent)':'var(--faint)'}))}; })(), langOpts:[['en','ENGLISH'],['he','עברית']].map(([k,label])=>({label,bg:st.lang===k?'#c62828':'transparent',fg:st.lang===k?'#ffffff':'#c62828',on:()=>this.setLang(k)})), onCloseSettings:()=>this.setState({screen:'home',sheet:null}),
       isHome:S==='home',isLibrary:S==='library',isReading:S==='reading',isSearch:S==='search',isSettings:S==='settings',isBookmarks:S==='bookmarks',
-      showNav:S!=='reading', nav,
-      greeting:this.greetingFor(), dateHe:'יום ראשון · כ״ב בְּסִיוָן תשפ״ו',
+      showNav:(S!=='reading')||this.isWide(), nav,
+      greeting:this.greetingFor(), dateHe:isEn?new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'יום ראשון · כ״ב בְּסִיוָן תשפ״ו',
       onOpenTanakh:()=>this.setState({screen:'library',libTab:'torah'}), onOpenNT:()=>this.setState({screen:'library',libTab:'nt'}),
-      dailyRef:this.bookHe(plan.b)+' · '+(plan.b==='psalms'?'מִזְמוֹר ':'פֶּרֶק ')+this.gem(plan.c), dailySnippet:snippet, dailyMeta:'5 דקות · '+planCh.length+' פסוקים',
+      dailyRef:this.bookHe(plan.b)+' · '+(plan.b==='psalms'?t.psalm:t.perek)+' '+this.chapBig(plan.c), dailySnippet:snippet, snipDir:st.lang==='en'?'ltr':'rtl', dailyMeta:t.mins+' · '+planCh.length+' '+t.verses,
       onOpenDaily:()=>{ this.loadText(plan.b); this.setState({book:plan.b,chapter:plan.c,screen:'reading',sheet:null,bmAdd:false}); },
-      contRef:this.bookHe(cont.book)+' · פֶּרֶק '+this.gem(cont.chapter), contPctW:Math.round(cont.chapter/contTotal*100)+'%', contInfo:'פרק '+this.gershayim(cont.chapter)+' מתוך '+contTotal,
+      contRef:this.bookHe(cont.book)+' · '+t.perek+' '+this.chapBig(cont.chapter), contPctW:Math.round(cont.chapter/contTotal*100)+'%', contInfo:t.chapter+' '+this.chapLbl(cont.chapter)+' '+t.of+' '+contTotal,
       onContinue:()=>{ this.loadText(cont.book); this.setState({book:cont.book,chapter:cont.chapter,screen:'reading',bmAdd:false}); },
       libTabs, libRows,
-      rBookHe:this.bookHe(st.book), rBookId:st.book, rChapHe:this.gem(st.chapter), rChapLabel:this.gershayim(st.chapter), onGoHome:()=>this.setState({screen:'home',bmAdd:false}), rIsOT:this.isOT(st.book), rHasText:hasText, rNoText:!hasText,
+      rBookHe:this.bookHe(st.book), rBookId:st.book, rChapHe:this.chapBig(st.chapter), rChapLabel:this.chapLbl(st.chapter), onGoHome:()=>this.setState({screen:'home',bmAdd:false}), rIsOT:this.isOT(st.book), rHasText:hasText, rNoText:!hasText,
       verses, rFontPx:Math.round(37*st.fontPct/100)+'px',
+      pickerOpen:!!st.picker, pickerIsBook:st.picker==='book', pickerIsChap:st.picker==='chap',
+      pickerTitle:st.picker==='chap'?(t.chapPicker+' · '+this.bookHe(st.book)):t.bookPicker,
+      onOpenBookPicker:()=>this.setState({picker:'book'}), onOpenChapPicker:()=>this.setState({picker:'chap'}),
+      onClosePicker:()=>this.setState({picker:null}),
+      pickerGroups:Object.keys(this.SEC).map(k=>({ he:t.sec[k], books:this.SEC[k][1].map(b=>({ he:this.bookHe(b[0]), bg:b[0]===st.book?'var(--s2)':'transparent', fg:b[0]===st.book?'var(--accent)':'var(--text)', on:()=>{ this.loadText(b[0]); this.setState({book:b[0],chapter:1,picker:null,bmAdd:false}); } })) })),
+      pickerChaps:Array.from({length:maxCh},(_,i)=>i+1).map(n=>({ he:this.chapBig(n), bg:n===st.chapter?'var(--s2)':'transparent', fg:n===st.chapter?'var(--accent)':'var(--text)', on:()=>this.setState({chapter:n,picker:null,bmAdd:false}) })),
       taamimFg:st.taamim?'var(--gold)':'var(--muted)', taamimDot:st.taamim?'var(--gold)':'var(--faint)',
       onBack:()=>this.setState({screen:'library',sheet:null,bmAdd:false}), onToggleTaamim:()=>this.setState(s=>({taamim:!s.taamim})),
       onPrev:()=>{ if(st.chapter>1)this.setState({chapter:st.chapter-1,bmAdd:false}); }, onNext:()=>{ if(st.chapter<maxCh)this.setState({chapter:st.chapter+1,bmAdd:false}); },
@@ -448,15 +596,19 @@ class Component extends DCLogic {
       fontPct:st.fontPct, fontSliderW:Math.round((st.fontPct-70)/100*100)+'%', onFontUp:()=>this.setState(s=>({fontPct:Math.min(170,s.fontPct+10)})), onFontDown:()=>this.setState(s=>({fontPct:Math.max(70,s.fontPct-10)})),
       tgTaamimBg:st.taamim?'var(--accent)':'var(--track)', tgTaamimX:st.taamim?'21px':'3px',
       onToggleTheme:()=>this.setState(s=>({light:!s.light}),()=>{this.applyThemeColor();this.persistTheme();}),
-      themeOpts:[['normal','רגיל'],['cream','קרם'],['winter','סתיו']].map(([k,l])=>({key:k,label:l,fg:(!st.light&&st.theme===k)?'var(--accentInk)':'var(--text2)',bg:(!st.light&&st.theme===k)?'var(--accent)':'transparent',on:()=>this.setTheme(k)})),
-      themeSubtitle:st.theme==='cream'?'ערכת צבעים קרמית במיוחד':(st.theme==='winter'?'ערכת צבעים גרפיט':'ערכת ברירת המחדל'),
-      showRate:st.showRate, rateBtn:'דרג את האפליקציה', onRateNow:()=>this.dismissRate(), onRateLater:()=>this.dismissRate(), tgThemeBg:st.light?'var(--accent)':'var(--track)', tgThemeX:st.light?'21px':'3px',
+      themeOpts:[['normal',t.themes[0]],['cream',t.themes[1]],['winter',t.themes[2]]].map(([k,l])=>({key:k,label:l,fg:(!st.light&&st.theme===k)?'var(--accentInk)':'var(--text2)',bg:(!st.light&&st.theme===k)?'var(--accent)':'transparent',on:()=>this.setTheme(k)})),
+      themeSubtitle:st.theme==='cream'?t.themeSubs[1]:(st.theme==='winter'?t.themeSubs[2]:t.themeSubs[0]),
+      showRate:st.showRate, rateBtn:t.rateBtn, onRateNow:()=>this.dismissRate(), onRateLater:()=>this.dismissRate(), tgThemeBg:st.light?'var(--accent)':'var(--track)', tgThemeX:st.light?'21px':'3px',
+      trToggles:[['he','עב','עברית'],['kjv','KJV','King James Version'],['bsb','BSB','Berean Standard Bible']].map(([k,label,title])=>({label,title,bg:cols[k]?'var(--accent)':'transparent',fg:cols[k]?'var(--accentInk)':'var(--text2)',on:()=>this.toggleCol(k)})),
+      showHe:!!cols.he, rMulti:nCols>1?'1':'0', rMultiHead:nCols>1&&wide, gridCols:(wide?Array(nCols).fill('minmax(0,1fr)').join(' '):'minmax(0,1fr)'),
+      colHeads:[...(cols.he?[{label:t.hebrew,dir:'rtl',align:'right'}]:[]),...engOn.map(k=>({label:this.TR[k][1]+' · '+this.TR[k][0],dir:'ltr',align:'left'}))],
+      rEngPx:Math.round(37*st.fontPct/100*0.64)+'px', engFont:st.serif?"'Noto Serif', Georgia, serif":"'Noto Sans', system-ui, sans-serif",
+      onToggleDigits:()=>this.setState(s=>({numDigits:!s.numDigits}),()=>this.persistView()), tgDigBg:st.numDigits?'var(--accent)':'var(--track)', tgDigX:st.numDigits?'21px':'3px',
       readFont:st.serif?"'Narkissim', serif":"'Noto Sans Hebrew', sans-serif", onToggleSerif:()=>this.setState(s=>({serif:!s.serif})), tgSerifBg:st.serif?'var(--accent)':'var(--track)', tgSerifX:st.serif?'21px':'3px',
       bmModes, bmRows, bmEmpty
     };
   }
 }
 </script>
-<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){});}</script>
 </body>
 </html>

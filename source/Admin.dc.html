@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Admin · Hebrew Bible</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600&family=Noto+Serif:wght@400;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;background:#f3e7d7;color:#3c2f26;font-family:'Noto Sans','Noto Sans Hebrew',sans-serif;}
+  *{box-sizing:border-box;}
+  a{color:#c8643f;} a:hover{color:#a44e2e;}
+  @font-face{font-family:'Narkissim';src:url('fonts/Narkissim-Regular.ttf') format('truetype');font-weight:400;font-display:swap;}
+  textarea,input,select,button{font:inherit;color:inherit;}
+</style>
+</helmet>
+
+<div dir="ltr" style="min-height:100vh;display:flex;flex-direction:column">
+
+  <div style="position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(16px,4vw,48px);background:#fbf4ea;border-bottom:1px solid rgba(80,50,30,.12)">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-family:'Material Symbols Outlined';font-size:28px;color:#c8643f">edit_note</span>
+      <div style="font:600 22px 'Noto Sans Hebrew',sans-serif">Content admin</div>
+      <div style="font:400 16px 'Noto Sans Hebrew',sans-serif;color:#917c68">Hebrew Bible reader</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:{{ modeBg }};font:500 15px 'Noto Sans Hebrew',sans-serif;color:{{ modeFg }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ modeFg }}"></span>{{ modeLabel }}</div>
+        <div onClick="{{ onLogout }}" style="cursor:pointer;font:500 16px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">Sign out</div>
+      </sc-if>
+      <a href="index.html" target="_blank" style="font:500 16px 'Noto Sans Hebrew',sans-serif;text-decoration:none">Open site ↗</a>
+    </div>
+  </div>
+
+  <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;display:flex;justify-content:center;padding:clamp(24px,6vh,72px) 20px">
+      <div style="width:100%;max-width:560px;display:flex;flex-direction:column;gap:22px">
+        <div>
+          <div style="font:600 32px 'Noto Sans Hebrew',sans-serif;margin-bottom:8px">Sign in</div>
+          <div style="font:400 18px/1.6 'Noto Sans Hebrew',sans-serif;color:#6b5a4c;text-wrap:pretty">Changes are saved directly to the site's GitHub repository. Only someone holding an access token with write permission to that repository can publish.</div>
+        </div>
+
+        <div style="background:#fbf4ea;border:1px solid rgba(80,50,30,.12);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+            <label style="display:flex;flex-direction:column;gap:6px;font:500 15px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">Owner<input dir="ltr" value="{{ cfg.owner }}" onChange="{{ onCfgOwner }}" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(80,50,30,.18);background:#fff;font:400 16px 'Noto Sans',sans-serif"></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font:500 15px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">Repository<input dir="ltr" value="{{ cfg.repo }}" onChange="{{ onCfgRepo }}" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(80,50,30,.18);background:#fff;font:400 16px 'Noto Sans',sans-serif"></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font:500 15px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">Branch<input dir="ltr" value="{{ cfg.branch }}" onChange="{{ onCfgBranch }}" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(80,50,30,.18);background:#fff;font:400 16px 'Noto Sans',sans-serif"></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font:500 15px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">Site folder<input dir="ltr" value="{{ cfg.base }}" onChange="{{ onCfgBase }}" placeholder="source" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(80,50,30,.18);background:#fff;font:400 16px 'Noto Sans',sans-serif"></label>
+          </div>
+          <label style="display:flex;flex-direction:column;gap:6px;font:500 15px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">GitHub access token<input dir="ltr" type="password" value="{{ token }}" onChange="{{ onToken }}" placeholder="github_pat_…" autocomplete="off" style="padding:12px 14px;border-radius:10px;border:1px solid rgba(80,50,30,.18);background:#fff;font:400 16px 'Noto Sans',monospace"></label>
+          <div onClick="{{ onToggleRemember }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;font:400 16px 'Noto Sans Hebrew',sans-serif;color:#3c2f26">
+            <div dir="ltr" style="width:42px;height:24px;border-radius:12px;background:{{ remBg }};position:relative;flex-shrink:0"><div style="position:absolute;top:3px;left:{{ remX }};width:18px;height:18px;border-radius:50%;background:#fff"></div></div>
+            Remember me on this device
+          </div>
+          <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}"><div style="padding:12px 14px;border-radius:10px;background:#f6dcd2;color:#8a2f17;font:500 16px/1.5 'Noto Sans Hebrew',sans-serif">{{ err }}</div></sc-if>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <div onClick="{{ onLogin }}" style="cursor:pointer;padding:12px 22px;border-radius:12px;background:#c8643f;color:#fff;font:600 17px 'Noto Sans Hebrew',sans-serif" style-hover="background:#b05432">{{ loginLabel }}</div>
+            <div onClick="{{ onLocal }}" style="cursor:pointer;padding:12px 22px;border-radius:12px;background:#ece0cf;color:#3c2f26;font:500 17px 'Noto Sans Hebrew',sans-serif" style-hover="background:#e3d4bf">Test mode (drafts only)</div>
+          </div>
+        </div>
+
+        <div style="font:400 15px/1.7 'Noto Sans Hebrew',sans-serif;color:#6b5a4c;display:flex;flex-direction:column;gap:6px">
+          <div style="font-weight:600;color:#3c2f26">Create an access token (one time)</div>
+          <div>1. On GitHub: Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token.</div>
+          <div>2. Repository access: Only select repositories → choose the site repository. Permissions → Contents: Read and write.</div>
+          <div>3. Paste the token here. It is sent only to api.github.com and never stored on any other server.</div>
+          <div style="margin-top:6px">In test mode you can edit and preview changes on the site in this browser only, without publishing.</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:4px;padding:14px clamp(16px,4vw,48px) 0">
+      <sc-for list="{{ sectionTabs }}" as="s" hint-placeholder-count="2"><div onClick="{{ s.on }}" style="cursor:pointer;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px 12px 0 0;background:{{ s.bg }};color:{{ s.fg }};font:600 17px 'Noto Sans Hebrew',sans-serif"><span style="font-family:'Material Symbols Outlined';font-size:22px">{{ s.icon }}</span>{{ s.label }}</div></sc-for>
+    </div>
+    <sc-if value="{{ isAds }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;width:100%;max-width:1200px;margin:0 auto;padding:22px clamp(16px,4vw,48px) 140px;display:flex;flex-direction:column;gap:18px">
+        <div style="font:400 17px/1.6 'Noto Sans Hebrew',sans-serif;color:#6b5a4c;text-wrap:pretty">Up to 5 ads per language. Ads rotate every 15 seconds at the bottom of the side menu, based on the language the reader chose. Portrait or square images look best.</div>
+        <sc-if value="{{ adsLoading }}" hint-placeholder-val="{{ false }}"><div style="padding:30px;text-align:center;color:#917c68;font:500 18px 'Noto Sans Hebrew',sans-serif">Loading…</div></sc-if>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr));gap:22px">
+          <sc-for list="{{ adLangs }}" as="g" hint-placeholder-count="2">
+            <div style="background:#fbf4ea;border:1px solid rgba(80,50,30,.12);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+              <div style="font:600 21px 'Noto Sans Hebrew',sans-serif">{{ g.title }}</div>
+              <sc-for list="{{ g.slots }}" as="a" hint-placeholder-count="5">
+                <div style="display:flex;gap:14px;align-items:stretch;padding:12px;border-radius:12px;background:#fff;border:1px solid {{ a.bd }}">
+                  <div style="flex-shrink:0;width:92px;height:118px;border-radius:8px;background:#ece0cf;display:flex;align-items:center;justify-content:center;overflow:hidden">
+                    <sc-if value="{{ a.hasImg }}" hint-placeholder-val="{{ false }}"><img src="{{ a.src }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if>
+                    <sc-if value="{{ a.noImg }}" hint-placeholder-val="{{ true }}"><span style="font:600 26px 'Noto Sans',sans-serif;color:#b6a690">{{ a.n }}</span></sc-if>
+                  </div>
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;justify-content:center">
+                    <label style="display:flex;flex-direction:column;gap:4px;font:500 14px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">Link<input dir="ltr" value="{{ a.link }}" onChange="{{ a.onLink }}" placeholder="https://" style="padding:8px 10px;border-radius:8px;border:1px solid rgba(80,50,30,.18);background:#fffdf9;font:400 15px 'Noto Sans',sans-serif"></label>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+                      <label style="cursor:pointer;padding:7px 12px;border-radius:9px;background:#ece0cf;font:500 14px 'Noto Sans Hebrew',sans-serif">{{ a.pickLabel }}<input type="file" accept="image/*" onChange="{{ a.onFile }}" style="display:none"></label>
+                      <sc-if value="{{ a.hasImg }}" hint-placeholder-val="{{ false }}"><div onClick="{{ a.onClear }}" style="cursor:pointer;padding:7px 12px;border-radius:9px;border:1px solid rgba(80,50,30,.2);font:500 14px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">Remove</div></sc-if>
+                      <sc-if value="{{ a.pending }}" hint-placeholder-val="{{ false }}"><span style="font:600 13px 'Noto Sans Hebrew',sans-serif;color:#c8643f">New image</span></sc-if>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:fixed;bottom:0;left:0;right:0;z-index:6;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:14px clamp(16px,4vw,48px);background:#fbf4ea;border-top:1px solid rgba(80,50,30,.14);box-shadow:0 -8px 24px rgba(60,40,20,.06)">
+        <div style="font:400 15px 'Noto Sans Hebrew',sans-serif;color:{{ adStatusFg }}">{{ adStatus }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <sc-if value="{{ isLocal }}" hint-placeholder-val="{{ false }}"><div onClick="{{ onAdsResetLocal }}" style="cursor:pointer;padding:11px 18px;border-radius:12px;border:1px solid rgba(80,50,30,.2);font:500 16px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c">Discard ad draft</div></sc-if>
+          <div onClick="{{ onAdsSave }}" style="cursor:pointer;padding:11px 22px;border-radius:12px;background:#c8643f;color:#fff;font:600 17px 'Noto Sans Hebrew',sans-serif">{{ adsSaveLabel }}</div>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isText }}" hint-placeholder-val="{{ true }}">
+    <div style="position:sticky;top:61px;z-index:4;display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px clamp(16px,4vw,48px);background:#f3e7d7;border-bottom:1px solid rgba(80,50,30,.10)">
+      <div style="display:flex;gap:3px;padding:4px;border-radius:10px;background:#ece0cf">
+        <sc-for list="{{ trTabs }}" as="t" hint-placeholder-count="3"><div onClick="{{ t.on }}" style="cursor:pointer;padding:7px 14px;border-radius:7px;background:{{ t.bg }};color:{{ t.fg }};font:600 16px 'Noto Sans Hebrew',sans-serif">{{ t.label }}</div></sc-for>
+      </div>
+      <select value="{{ book }}" onChange="{{ onBook }}" style="padding:9px 12px;border-radius:10px;border:1px solid rgba(80,50,30,.18);background:#fff;font:500 17px 'Noto Sans Hebrew',sans-serif;min-width:170px">
+        <sc-for list="{{ bookOpts }}" as="b" hint-placeholder-count="10"><option value="{{ b.id }}">{{ b.label }}</option></sc-for>
+      </select>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div onClick="{{ onPrevCh }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-size:26px;color:#6b5a4c;padding:4px">chevron_left</div>
+        <select value="{{ chapterStr }}" onChange="{{ onChapter }}" style="padding:9px 12px;border-radius:10px;border:1px solid rgba(80,50,30,.18);background:#fff;font:500 17px 'Noto Sans Hebrew',sans-serif">
+          <sc-for list="{{ chapOpts }}" as="c" hint-placeholder-count="10"><option value="{{ c.v }}">Chapter {{ c.label }}</option></sc-for>
+        </select>
+        <div onClick="{{ onNextCh }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-size:26px;color:#6b5a4c;padding:4px">chevron_right</div>
+      </div>
+      <input value="{{ filter }}" onChange="{{ onFilter }}" placeholder="Filter verses in this chapter…" style="flex:1;min-width:180px;padding:9px 12px;border-radius:10px;border:1px solid rgba(80,50,30,.18);background:#fff;font:400 16px 'Noto Sans Hebrew',sans-serif">
+    </div>
+
+    <div style="flex:1;width:100%;max-width:1100px;margin:0 auto;padding:18px clamp(16px,4vw,48px) 140px;display:flex;flex-direction:column;gap:8px">
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}"><div style="padding:40px;text-align:center;color:#917c68;font:500 18px 'Noto Sans Hebrew',sans-serif">Loading…</div></sc-if>
+      <sc-if value="{{ loadErr }}" hint-placeholder-val="{{ false }}"><div style="padding:14px;border-radius:10px;background:#f6dcd2;color:#8a2f17;font:500 16px 'Noto Sans Hebrew',sans-serif">{{ loadErr }}</div></sc-if>
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:{{ r.bg }};border:1px solid {{ r.bd }}">
+          <div style="flex-shrink:0;width:44px;padding-top:8px;text-align:center;font:600 16px 'Noto Sans',sans-serif;color:#c8643f">{{ r.ref }}</div>
+          <textarea dir="{{ dir }}" value="{{ r.text }}" onChange="{{ r.onChange }}" rows="{{ r.rows }}" style="flex:1;min-width:0;resize:vertical;padding:8px 10px;border-radius:8px;border:1px solid rgba(80,50,30,.14);background:#fffdf9;font-family:{{ edFont }};font-size:{{ edSize }};line-height:1.7;text-align:{{ align }}"></textarea>
+          <div style="flex-shrink:0;width:64px;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:6px">
+            <sc-if value="{{ r.changed }}" hint-placeholder-val="{{ false }}">
+              <div style="font:600 13px 'Noto Sans Hebrew',sans-serif;color:#c8643f">Edited</div>
+              <div onClick="{{ r.onRevert }}" style="cursor:pointer;font:500 14px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c;text-decoration:underline">Revert</div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:6;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:14px clamp(16px,4vw,48px);background:#fbf4ea;border-top:1px solid rgba(80,50,30,.14);box-shadow:0 -8px 24px rgba(60,40,20,.06)">
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <div style="font:600 17px 'Noto Sans Hebrew',sans-serif">{{ draftLine }}</div>
+        <div style="font:400 15px 'Noto Sans Hebrew',sans-serif;color:{{ statusFg }}">{{ status }}</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <sc-for list="{{ otherDrafts }}" as="d" hint-placeholder-count="0"><div onClick="{{ d.on }}" style="cursor:pointer;padding:9px 14px;border-radius:10px;background:#ece0cf;font:500 15px 'Noto Sans Hebrew',sans-serif">{{ d.label }}</div></sc-for>
+        <div onClick="{{ onDiscard }}" style="cursor:pointer;padding:11px 18px;border-radius:12px;background:transparent;border:1px solid rgba(80,50,30,.2);font:500 16px 'Noto Sans Hebrew',sans-serif;color:#6b5a4c;opacity:{{ discardOp }}">Discard changes in book</div>
+        <div onClick="{{ onPublish }}" style="cursor:pointer;padding:11px 22px;border-radius:12px;background:{{ pubBg }};color:#fff;font:600 17px 'Noto Sans Hebrew',sans-serif">{{ pubLabel }}</div>
+      </div>
+    </div>
+    </sc-if>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  SEC = {
+    torah:['תורה',[['genesis','בראשית',50],['exodus','שמות',40],['leviticus','ויקרא',27],['numbers','במדבר',36],['deuteronomy','דברים',34]]],
+    neviim:['נביאים',[['joshua','יהושע',24],['judges','שופטים',21],['samuel1','שמואל א',31],['samuel2','שמואל ב',24],['kings1','מלכים א',22],['kings2','מלכים ב',25],['isaiah','ישעיהו',66],['jeremiah','ירמיהו',52],['ezekiel','יחזקאל',48],['hosea','הושע',14],['joel','יואל',4],['amos','עמוס',9],['obadiah','עובדיה',1],['jonah','יונה',4],['micah','מיכה',7],['nahum','נחום',3],['habakkuk','חבקוק',3],['zephaniah','צפניה',3],['haggai','חגי',2],['zechariah','זכריה',14],['malachi','מלאכי',3]]],
+    ketuvim:['כתובים',[['psalms','תהילים',150],['proverbs','משלי',31],['job','איוב',42],['song','שיר השירים',8],['ruth','רות',4],['lamentations','איכה',5],['ecclesiastes','קהלת',12],['esther','אסתר',10],['daniel','דניאל',12],['ezra','עזרא',10],['nehemiah','נחמיה',13],['chron1','דברי הימים א',29],['chron2','דברי הימים ב',36]]],
+    nt:['הברית החדשה',[['matthew','בשורת מתי',28],['mark','בשורת מרקוס',16],['luke','בשורת לוקס',24],['john','בשורת יוחנן',21],['acts','מעשי השליחים',28],['romans','רומים',16],['cor1','א׳ קורינתים',16],['cor2','ב׳ קורינתים',13],['gal','גלטים',6],['eph','אפסים',6],['phil','פיליפים',4],['col','קולוסים',4],['thess1','א׳ תסלוניקים',5],['thess2','ב׳ תסלוניקים',3],['tim1','א׳ טימותיאוס',6],['tim2','ב׳ טימותיאוס',4],['titus','טיטוס',3],['philemon','פילמון',1],['heb','עברים',13],['james','יעקב',5],['pet1','א׳ פטרוס',5],['pet2','ב׳ פטרוס',3],['john1','א׳ יוחנן',5],['john2','ב׳ יוחנן',1],['john3','ג׳ יוחנן',1],['jude','יהודה',1],['revelation','התגלות',22]]]
+  };
+  BOOK_EN = {genesis:'Genesis',exodus:'Exodus',leviticus:'Leviticus',numbers:'Numbers',deuteronomy:'Deuteronomy',joshua:'Joshua',judges:'Judges',samuel1:'1 Samuel',samuel2:'2 Samuel',kings1:'1 Kings',kings2:'2 Kings',isaiah:'Isaiah',jeremiah:'Jeremiah',ezekiel:'Ezekiel',hosea:'Hosea',joel:'Joel',amos:'Amos',obadiah:'Obadiah',jonah:'Jonah',micah:'Micah',nahum:'Nahum',habakkuk:'Habakkuk',zephaniah:'Zephaniah',haggai:'Haggai',zechariah:'Zechariah',malachi:'Malachi',psalms:'Psalms',proverbs:'Proverbs',job:'Job',song:'Song of Songs',ruth:'Ruth',lamentations:'Lamentations',ecclesiastes:'Ecclesiastes',esther:'Esther',daniel:'Daniel',ezra:'Ezra',nehemiah:'Nehemiah',chron1:'1 Chronicles',chron2:'2 Chronicles',matthew:'Matthew',mark:'Mark',luke:'Luke',john:'John',acts:'Acts',romans:'Romans',cor1:'1 Corinthians',cor2:'2 Corinthians',gal:'Galatians',eph:'Ephesians',phil:'Philippians',col:'Colossians',thess1:'1 Thessalonians',thess2:'2 Thessalonians',tim1:'1 Timothy',tim2:'2 Timothy',titus:'Titus',philemon:'Philemon',heb:'Hebrews',james:'James',pet1:'1 Peter',pet2:'2 Peter',john1:'1 John',john2:'2 John',john3:'3 John',jude:'Jude',revelation:'Revelation'};
+  TRS = [['text','Hebrew'],['kjv','KJV'],['bsb','BSB']];
+  state = { mode:null, cfg:{owner:'shimishamus',repo:'bibleapp',branch:'main',base:'source'}, token:'', remember:false, err:'', busy:false,
+    tr:'text', book:'genesis', chapter:1, file:null, loading:false, loadErr:'', filter:'', drafts:{}, status:'', statusErr:false };
+
+  componentDidMount(){
+    let cfg=null, tok=null;
+    try{ cfg=JSON.parse(localStorage.getItem('hb_admin_cfg')||'null'); }catch(e){}
+    try{ tok=sessionStorage.getItem('hb_admin_tok')||localStorage.getItem('hb_admin_tok'); }catch(e){}
+    this.setState({ cfg:cfg||this.state.cfg, drafts:this.readDrafts() });
+    if(tok){ this.setState({token:tok, remember:!!localStorage.getItem('hb_admin_tok')}, ()=>this.login(true)); }
+  }
+  readDrafts(){ try{ return JSON.parse(localStorage.getItem('hb_edits')||'{}'); }catch(e){ return {}; } }
+  writeDrafts(d){ try{ localStorage.setItem('hb_edits', JSON.stringify(d)); }catch(e){} this.setState({drafts:d}); }
+  books(){ const o=[]; for(const k in this.SEC) this.SEC[k][1].forEach(b=>o.push(b)); return o; }
+  bookInfo(id){ return this.books().find(b=>b[0]===id)||this.books()[0]; }
+  fileKey(){ return this.state.tr+'/'+this.state.book; }
+  path(tr,id){ const b=(this.state.cfg.base||'').replace(/^\/+|\/+$/g,''); return (b?b+'/':'')+'data/'+(tr||this.state.tr)+'/'+(id||this.state.book)+'.txt'; }
+  api(p,opt){ const c=this.state.cfg; return fetch('https://api.github.com/repos/'+encodeURIComponent(c.owner)+'/'+encodeURIComponent(c.repo)+p,{...(opt||{}),headers:{'Authorization':'Bearer '+this.state.token.trim(),'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...((opt&&opt.headers)||{})}}); }
+
+  async login(silent){
+    const c=this.state.cfg;
+    if(!this.state.token.trim()){ this.setState({err:'Enter an access token.'}); return; }
+    this.setState({busy:true,err:''});
+    try{
+      const r=await this.api('');
+      if(r.status===401) throw new Error('The token is invalid or has expired.');
+      if(r.status===404) throw new Error('Repository '+c.owner+'/'+c.repo+' was not found, or the token has no access to it.');
+      if(!r.ok) throw new Error('GitHub error ('+r.status+').');
+      const j=await r.json();
+      if(!j.permissions||!j.permissions.push) throw new Error('The token has no write permission (Contents: Read and write).');
+      try{ localStorage.setItem('hb_admin_cfg',JSON.stringify(c)); if(this.state.remember){ localStorage.setItem('hb_admin_tok',this.state.token.trim()); sessionStorage.removeItem('hb_admin_tok'); } else { sessionStorage.setItem('hb_admin_tok',this.state.token.trim()); localStorage.removeItem('hb_admin_tok'); } }catch(e){}
+      try{ localStorage.removeItem('hb_ads_draft'); localStorage.removeItem('hb_promo_test'); }catch(e){}
+      this.setState({mode:'github',busy:false,status:'Connected to '+c.owner+'/'+c.repo,statusErr:false},()=>this.load());
+    }catch(e){ this.setState({busy:false,err:silent?'':e.message,mode:null}); }
+  }
+  logout(){ try{ sessionStorage.removeItem('hb_admin_tok'); localStorage.removeItem('hb_admin_tok'); }catch(e){} this._adsLoaded=false; this.setState({mode:null,token:'',file:null,status:'',section:'text',ads:null}); }
+
+  async load(){
+    const {tr,book,mode}=this.state; const key=tr+'/'+book;
+    this.setState({loading:true,loadErr:'',file:null});
+    try{
+      let raw, sha=null;
+      if(mode==='github'){
+        const p='/contents/'+this.path().split('/').map(encodeURIComponent).join('/')+'?ref='+encodeURIComponent(this.state.cfg.branch);
+        const [meta, body]=await Promise.all([this.api(p), this.api(p,{headers:{'Accept':'application/vnd.github.raw'}})]);
+        if(meta.status===404) throw new Error('File '+this.path()+' was not found in the repository. Check "Site folder".');
+        if(!meta.ok||!body.ok) throw new Error('Error loading from GitHub ('+meta.status+').');
+        sha=(await meta.json()).sha; raw=await body.text();
+      } else {
+        const r=await fetch('data/'+tr+'/'+book+'.txt'); if(!r.ok) throw new Error('Not found: data/'+tr+'/'+book+'.txt'); raw=await r.text();
+      }
+      if(this.fileKey()!==key) return;
+      const verses={}; raw.split('\n').forEach(l=>{ const m=/^(\d+):(\d+)\s+(.+)$/.exec(l.trim()); if(m) verses[m[1]+':'+m[2]]=m[3]; });
+      this.setState({file:{key,raw,sha,verses},loading:false});
+    }catch(e){ this.setState({loading:false,loadErr:e.message}); }
+  }
+  go(patch){ this.setState({...patch,filter:''},()=>{ if(patch.tr!==undefined||patch.book!==undefined) this.load(); try{ window.scrollTo(0,0); }catch(e){} }); }
+
+  setVerse(key,val){
+    const f=this.state.file; if(!f) return;
+    const d={...this.state.drafts}; const fk=f.key; const cur={...(d[fk]||{})};
+    if(val===f.verses[key]) delete cur[key]; else cur[key]=val;
+    if(Object.keys(cur).length) d[fk]=cur; else delete d[fk];
+    this.writeDrafts(d); this.setState({status:'Saved as draft',statusErr:false});
+  }
+  discard(){ const d={...this.state.drafts}; delete d[this.fileKey()]; this.writeDrafts(d); this.setState({status:'Changes in this book discarded',statusErr:false}); }
+
+  async ghErr(r,what){
+    let msg=''; try{ const j=await r.json(); msg=j.message||''; }catch(e){}
+    if(r.status===403||r.status===404&&/not accessible/i.test(msg)){
+      return what+' failed (403): the token is not allowed to write to this repository. Fix: GitHub → Settings → Developer settings → Fine-grained tokens → edit this token → Repository access must include "'+this.state.cfg.repo+'", and Permissions → Contents must be "Read and write". Save, then try again (no new token needed).'+(msg?' GitHub says: "'+msg+'"':'');
+    }
+    if(r.status===422) return what+' failed (422): '+(msg||'GitHub rejected the file.')+' If the image is very large, resize it under 1MB.';
+    return what+' failed ('+r.status+')'+(msg?': '+msg:'.');
+  }
+  b64(str){ const bytes=new TextEncoder().encode(str); let s=''; for(let i=0;i<bytes.length;i+=0x8000) s+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000)); return btoa(s); }
+  async publish(){
+    const f=this.state.file; const ch=this.state.drafts[f&&f.key]||{};
+    if(this.state.mode!=='github'){ this.setState({status:'Test mode: changes are visible only in this browser. Sign in with a token to publish.',statusErr:true}); return; }
+    const keys=Object.keys(ch); if(!f||!keys.length||this.state.busy) return;
+    this.setState({busy:true,status:'Publishing…',statusErr:false});
+    try{
+      const lines=f.raw.split('\n').map(l=>{ const m=/^(\s*)(\d+):(\d+)(\s+)(.+)$/.exec(l); if(!m) return l; const k=m[2]+':'+m[3]; return ch[k]!=null?(m[1]+k+' '+ch[k].replace(/\s*\n\s*/g,' ').trim()):l; });
+      const raw=lines.join('\n');
+      const b=this.bookInfo(this.state.book); const trL=this.TRS.find(t=>t[0]===this.state.tr)[1];
+      const msg='Edit '+b[0]+' ('+trL+'): '+keys.sort().slice(0,6).join(', ')+(keys.length>6?' +'+(keys.length-6):'');
+      const r=await this.api('/contents/'+this.path().split('/').map(encodeURIComponent).join('/'),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,content:this.b64(raw),sha:f.sha,branch:this.state.cfg.branch})});
+      if(r.status===409) throw new Error('The file changed elsewhere since it was loaded. Reload and try again.');
+      if(!r.ok) throw new Error(await this.ghErr(r,'Publishing'));
+      const j=await r.json();
+      const verses={...f.verses}; keys.forEach(k=>verses[k]=ch[k]);
+      const d={...this.state.drafts}; delete d[f.key]; this.writeDrafts(d);
+      this.setState({busy:false,file:{...f,raw,sha:j.content.sha,verses},status:'Published ✓ Live on the site within a minute or two.',statusErr:false});
+    }catch(e){ this.setState({busy:false,status:e.message,statusErr:true}); }
+  }
+
+  emptyAds(){ const e=()=>Array.from({length:5},()=>({img:'',link:'',file:null})); return {he:e(),en:e()}; }
+  normAds(j){ const o=this.emptyAds(); ['he','en'].forEach(l=>((j&&j[l])||[]).slice(0,5).forEach((a,i)=>{ o[l][i]={img:a.img||'',link:a.link||'',file:a.file||null}; })); return o; }
+  async loadAds(){
+    this.setState({adsLoading:true,adStatus:'',adErr:false});
+    try{
+      if(this.state.mode==='github'){
+        const enc=x=>'/contents/'+x.split('/').map(encodeURIComponent).join('/')+'?ref='+encodeURIComponent(this.state.cfg.branch);
+        let p=enc(this.adsPath()); let meta=await this.api(p);
+        if(meta.status===404){
+          const old=enc(this.adsPath().replace('promo.json','ads.json')); const om=await this.api(old);
+          if(!om.ok){ this.setState({ads:this.emptyAds(),adsSha:null,adsLoading:false}); return; }
+          const ob=await this.api(old,{headers:{'Accept':'application/vnd.github.raw'}});
+          this.setState({ads:this.normAds(JSON.parse(await ob.text())),adsSha:null,adsLoading:false,adStatus:'Loaded from the old ads.json. Click "Publish ads to site" once to move everything to the new ad-blocker-safe location.',adErr:false}); return;
+        }
+        const body=await this.api(p,{headers:{'Accept':'application/vnd.github.raw'}});
+        this.setState({ads:this.normAds(JSON.parse(await body.text())),adsSha:(await meta.json()).sha,adsLoading:false});
+      } else {
+        let d=null; try{ d=JSON.parse(localStorage.getItem('hb_ads_draft')||'null'); }catch(e){}
+        if(!d){ let r=await fetch('data/promo.json?v='+Date.now(),{cache:'no-store'}); if(!r.ok) r=await fetch('data/ads.json?v='+Date.now(),{cache:'no-store'}); d=r.ok?await r.json():null; }
+        this.setState({ads:this.normAds(d),adsLoading:false});
+      }
+    }catch(e){ this.setState({adsLoading:false,adStatus:'Loading ads failed: '+e.message,adErr:true}); }
+  }
+  adsPath(){ const b=(this.state.cfg.base||'').replace(/^\/+|\/+$/g,''); return (b?b+'/':'')+'data/promo.json'; }
+  setAd(l,i,patch){ const ads={...this.state.ads,[l]:this.state.ads[l].map((a,j)=>j===i?{...a,...patch}:a)}; this.setState({ads,adStatus:'Unsaved changes',adErr:false}); }
+  pickAdFile(l,i,e){ const f=e.target.files&&e.target.files[0]; if(!f) return; if(f.size>3e6){ this.setState({adStatus:'Image is larger than 3MB. Resize it and try again.',adErr:true}); return; } const rd=new FileReader(); rd.onload=()=>this.setAd(l,i,{file:{data:rd.result,name:f.name}}); rd.readAsDataURL(f); e.target.value=''; }
+  async saveAds(){
+    if(this.state.busy) return;
+    const ads=this.state.ads;
+    if(this.state.mode!=='github'){
+      const out={he:[],en:[]}; ['he','en'].forEach(l=>ads[l].forEach(a=>{ const img=a.file?a.file.data:a.img; if(img) out[l].push({img,link:a.link}); }));
+      try{ localStorage.setItem('hb_ads_draft',JSON.stringify(out)); localStorage.setItem('hb_promo_test','1'); this.setState({adStatus:'Saved as draft. Refresh the site in this browser to see it.',adErr:false}); }catch(e){ this.setState({adStatus:'Draft too large for browser storage. Try smaller images.',adErr:true}); }
+      return;
+    }
+    this.setState({busy:true,adStatus:'Uploading…',adErr:false});
+    try{
+      const b=(this.state.cfg.base||'').replace(/^\/+|\/+$/g,''); const out={he:[],en:[]}; const next=this.emptyAds();
+      for(const l of ['he','en']) for(let i=0;i<5;i++){
+        const a=ads[l][i]; let img=a.img;
+        if(a.file){
+          const ext=((a.file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,''))||'jpg';
+          const rel='media/p-'+l+'-'+(i+1)+'-'+Date.now()+'.'+ext;
+          const r=await this.api('/contents/'+((b?b+'/':'')+rel).split('/').map(encodeURIComponent).join('/'),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Ad image '+l+' #'+(i+1),content:a.file.data.split(',')[1],branch:this.state.cfg.branch})});
+          if(!r.ok) throw new Error(await this.ghErr(r,'Image upload'));
+          img=rel;
+        }
+        if(img && /^ads\//.test(img)){
+          const src='/contents/'+((b?b+'/':'')+img).split('/').map(encodeURIComponent).join('/')+'?ref='+encodeURIComponent(this.state.cfg.branch);
+          const g=await this.api(src); if(!g.ok) throw new Error(await this.ghErr(g,'Reading '+img));
+          const gj=await g.json(); const rel='media/p-'+l+'-'+(i+1)+'-'+Date.now()+'.'+(img.split('.').pop()||'jpg');
+          const r=await this.api('/contents/'+((b?b+'/':'')+rel).split('/').map(encodeURIComponent).join('/'),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Move ad image '+img,content:(gj.content||'').replace(/\s/g,''),branch:this.state.cfg.branch})});
+          if(!r.ok) throw new Error(await this.ghErr(r,'Moving '+img));
+          img=rel;
+        }
+        next[l][i]={img,link:a.link,file:null};
+        if(img) out[l].push({img,link:a.link});
+      }
+      const body={message:'Update ads',content:this.b64(JSON.stringify(out,null,2)+'\n'),branch:this.state.cfg.branch}; if(this.state.adsSha) body.sha=this.state.adsSha;
+      const r=await this.api('/contents/'+this.adsPath().split('/').map(encodeURIComponent).join('/'),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(r.status===409) throw new Error('The file changed elsewhere. Reload and try again.');
+      if(!r.ok) throw new Error(await this.ghErr(r,'Saving ads'));
+      const j=await r.json(); try{ localStorage.removeItem('hb_ads_draft'); localStorage.removeItem('hb_promo_test'); }catch(e){}
+      this.setState({busy:false,ads:next,adsSha:j.content.sha,adStatus:'Published ✓ Live on the site within a minute or two.',adErr:false});
+    }catch(e){ this.setState({busy:false,adStatus:e.message,adErr:true}); }
+  }
+
+  gem(n){ const u=['','א','ב','ג','ד','ה','ו','ז','ח','ט'],t=['','י','כ','ל','מ','נ','ס','ע','פ','צ'],h=['','ק','ר','ש','ת']; let s=h[Math.floor(n/100)]||''; let x=n%100; if(x===15)return s+'טו'; if(x===16)return s+'טז'; return s+(t[Math.floor(x/10)]||'')+(u[x%10]||''); }
+
+  renderVals(){
+    const st=this.state; const loggedIn=!!st.mode; const f=st.file;
+    const b=this.bookInfo(st.book); const maxCh=b[2]; const isHe=st.tr==='text';
+    const fd=st.drafts[this.fileKey()]||{}; const nDraft=Object.keys(fd).length;
+    const q=st.filter.trim();
+    const rows=(f&&f.key===this.fileKey())?Object.keys(f.verses).filter(k=>+k.split(':')[0]===st.chapter).sort((a,b)=>+a.split(':')[1]-+b.split(':')[1]).map(k=>{
+      const text=fd[k]!=null?fd[k]:f.verses[k]; const changed=fd[k]!=null;
+      return {k,ref:k.split(':')[1],text,changed,rows:Math.max(2,Math.ceil(text.length/(isHe?70:95))),bg:changed?'#fff3ea':'#fbf4ea',bd:changed?'#e6b49c':'rgba(80,50,30,.10)',
+        onChange:e=>this.setVerse(k,e.target.value), onRevert:()=>this.setVerse(k,f.verses[k])};
+    }).filter(r=>!q||r.text.includes(q)||r.ref===q):[];
+    const otherDrafts=Object.keys(st.drafts).filter(k=>k!==this.fileKey()).map(k=>{ const [tr,id]=k.split('/'); const trL=(this.TRS.find(t=>t[0]===tr)||['',tr])[1]; return {label:(this.BOOK_EN[id]||id)+' · '+trL+' ('+Object.keys(st.drafts[k]).length+')', on:()=>this.go({tr,book:id,chapter:1})}; });
+    const pubOk=st.mode==='github'&&nDraft>0&&!st.busy;
+    const ads=st.ads||this.emptyAds();
+    const adLangs=[['he','Hebrew ads'],['en','English ads']].map(([l,title])=>({title,slots:ads[l].map((a,i)=>{ const src=a.file?a.file.data:a.img; return {n:String(i+1),src,hasImg:!!src,noImg:!src,link:a.link,pending:!!a.file,bd:a.file?'#e6b49c':'rgba(80,50,30,.10)',pickLabel:src?'Replace image':'Choose image',
+      onLink:e=>this.setAd(l,i,{link:e.target.value.trim()}), onFile:e=>this.pickAdFile(l,i,e), onClear:()=>this.setAd(l,i,{img:'',file:null})}; })}));
+    return {
+      isText:st.section!=='ads', isAds:st.section==='ads', isLocal:st.mode==='local',
+      sectionTabs:[['text','Verses','menu_book'],['ads','Ads','campaign']].map(([k,label,icon])=>({label,icon,bg:(st.section||'text')===k?'#fbf4ea':'transparent',fg:(st.section||'text')===k?'#3c2f26':'#917c68',on:()=>this.setState({section:k},()=>{ if(k==='ads'&&!this._adsLoaded){ this._adsLoaded=true; this.loadAds(); } })})),
+      adLangs, adsLoading:!!st.adsLoading, adStatus:st.adStatus||'', adStatusFg:st.adErr?'#8a2f17':'#917c68',
+      onAdsSave:()=>this.saveAds(), adsSaveLabel:st.busy?'Saving…':(st.mode==='github'?'Publish ads to site':'Save draft'),
+      onAdsResetLocal:()=>{ try{ localStorage.removeItem('hb_ads_draft'); localStorage.removeItem('hb_promo_test'); }catch(e){} this.loadAds(); },
+      showLogin:!loggedIn, loggedIn, cfg:st.cfg, token:st.token, err:st.err,
+      loginLabel:st.busy?'Connecting…':'Sign in to publish',
+      onCfgOwner:e=>this.setState({cfg:{...st.cfg,owner:e.target.value.trim()}}), onCfgRepo:e=>this.setState({cfg:{...st.cfg,repo:e.target.value.trim()}}),
+      onCfgBranch:e=>this.setState({cfg:{...st.cfg,branch:e.target.value.trim()}}), onCfgBase:e=>this.setState({cfg:{...st.cfg,base:e.target.value.trim()}}),
+      onToken:e=>this.setState({token:e.target.value}), onToggleRemember:()=>this.setState(s=>({remember:!s.remember})),
+      remBg:st.remember?'#c8643f':'rgba(80,50,30,.2)', remX:st.remember?'21px':'3px',
+      onLogin:()=>this.login(false), onLocal:()=>this.setState({mode:'local',err:'',status:'Test mode: drafts are saved in this browser only',statusErr:false},()=>this.load()), onLogout:()=>this.logout(),
+      modeLabel:st.mode==='github'?(st.cfg.owner+'/'+st.cfg.repo):'Test mode', modeBg:st.mode==='github'?'#dcebdc':'#ece0cf', modeFg:st.mode==='github'?'#2e6b35':'#6b5a4c',
+      trTabs:this.TRS.map(([k,l])=>({label:l,bg:st.tr===k?'#c8643f':'transparent',fg:st.tr===k?'#fff':'#3c2f26',on:()=>this.go({tr:k})})),
+      book:st.book, bookOpts:this.books().map(x=>({id:x[0],label:this.BOOK_EN[x[0]]||x[0]})), onBook:e=>this.go({book:e.target.value,chapter:1}),
+      chapterStr:String(st.chapter), chapOpts:Array.from({length:maxCh},(_,i)=>({v:String(i+1),label:String(i+1)})),
+      onChapter:e=>this.go({chapter:+e.target.value}), onPrevCh:()=>st.chapter>1&&this.go({chapter:st.chapter-1}), onNextCh:()=>st.chapter<maxCh&&this.go({chapter:st.chapter+1}),
+      filter:st.filter, onFilter:e=>this.setState({filter:e.target.value}),
+      loading:st.loading, loadErr:st.loadErr, rows,
+      dir:isHe?'rtl':'ltr', align:isHe?'right':'left', edFont:isHe?"'Narkissim', serif":"'Noto Serif', Georgia, serif", edSize:isHe?'24px':'18px',
+      draftLine:nDraft?(nDraft+' verse'+(nDraft>1?'s':'')+' edited in '+this.BOOK_EN[b[0]]):'No changes in '+this.BOOK_EN[b[0]], status:st.status, statusFg:st.statusErr?'#8a2f17':'#917c68',
+      otherDrafts, onDiscard:()=>nDraft&&this.discard(), discardOp:nDraft?'1':'.4',
+      onPublish:()=>this.publish(), pubBg:pubOk?'#c8643f':'rgba(200,100,63,.4)', pubLabel:st.busy?'Publishing…':(st.mode==='github'?'Publish to site':'Sign in to publish')
+    };
+  }
+}
+</script>
+</body>
+</html>
