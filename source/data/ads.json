@@ -1,22 +1,8 @@
 {
   "he": [
-    {
-      "img": "ads/he-1-1790533352776.jpg",
-      "link": "https://eitanbar.co.il/%d7%98%d7%95%d7%a4%d7%a1-%d7%94%d7%a8%d7%a9%d7%9e%d7%94-%d7%9b%d7%93%d7%99-%d7%9c%d7%93%d7%a2%d7%aa-%d7%a8%d7%90%d7%a9%d7%95%d7%a0%d7%99%d7%9d-%d7%9b%d7%a9%d7%a1%d7%a4%d7%a8-%d7%99%d7%95%d7%a6%d7%90/"
-    }
+    { "img": "ads/bibleapp-ad.jpg", "link": "https://www.amazon.com/dp/B0H1JKDC8Y" }
   ],
   "en": [
-    {
-      "img": "ads/en-1-1790533428346.jpg",
-      "link": "https://www.amazon.com/dp/B0H1JKDC8Y"
-    },
-    {
-      "img": "ads/en-2-1790533429874.jpg",
-      "link": "https://www.amazon.com/dp/B0DKT6B7HM"
-    },
-    {
-      "img": "ads/en-3-1790533431946.jpg",
-      "link": "https://www.amazon.com/dp/B0CC34X44M"
-    }
+    { "img": "ads/bibleapp-ad.jpg", "link": "https://www.amazon.com/dp/B0H1JKDC8Y" }
   ]
 }
