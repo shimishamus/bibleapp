@@ -46,6 +46,18 @@
   #readtop{top:env(safe-area-inset-top,0px)!important;}
   #readbar{height:auto!important;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))!important;}
   #readbody{top:calc(env(safe-area-inset-top,0px) + 76px)!important;bottom:calc(84px + env(safe-area-inset-bottom,0px))!important;}
+  @media (max-width:759px){
+    #readtop{padding-inline-start:46px!important;padding-inline-end:8px!important;}
+    #readtop [data-rback]{inset-inline-start:6px!important;}
+    #readtop [data-rback] span{font-size:36px!important;}
+    #readtop [data-rtools]{gap:6px!important;}
+    #readtop [data-rtools]>div{padding:3px 7px!important;gap:6px!important;}
+    #readtop [data-rtools] [data-trgrp]{padding:3px!important;gap:3px!important;}
+    #readtop [data-rtools] [data-trgrp]>div{padding:4px 7px!important;font-size:15px!important;}
+    #readtop [data-rtools] span{font-size:17px!important;}
+    #readtop [data-rtools] [data-fup]{font-size:24px!important;}
+    #readtop [data-rtools] [data-ico]{font-size:26px!important;}
+  }
   /* Desktop / embedded: fill the full width instead of a phone-sized column */
   @media (min-width:760px){
     #bezel{width:100%!important;max-width:none!important;}
@@ -72,6 +84,9 @@
     #readbar{height:84px!important;padding-bottom:0!important;}
   }
   @media (min-width:760px) and (max-width:1060px){
+    #readtop{padding-inline-start:64px!important;}
+    #readtop [data-rtools]{gap:10px!important;}
+    #readtop [data-rtools] [data-trgrp]>div{padding:5px 9px!important;font-size:18px!important;}
     [data-rtitle]{display:none!important;}
   }
   @media (min-width:1100px){
@@ -101,13 +116,13 @@
               <span style="font:600 32px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.nt }}</span>
             </div>
           </div>
-          <div style="background:var(--dailyCard);border:1px solid var(--dailyBorder);border-radius:18px;padding:30px 34px;margin-bottom:18px">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
-              <div><div style="font:600 23px 'Noto Sans Hebrew',sans-serif;color:var(--gold);letter-spacing:.3px;margin-bottom:4px">{{ t.contReading }}</div><div style="font:600 36px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ contRef }}</div></div>
-              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:52px;color:var(--faint)">menu_book</span>
+          <div style="background:var(--dailyCard);border:1px solid var(--dailyBorder);border-radius:16px;padding:16px 20px;margin-bottom:18px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+              <div><div style="font:600 18px 'Noto Sans Hebrew',sans-serif;color:var(--gold);letter-spacing:.3px;margin-bottom:2px">{{ t.contReading }}</div><div style="font:600 27px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ contRef }}</div></div>
+              <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:36px;color:var(--faint)">menu_book</span>
             </div>
             <div style="display:flex;justify-content:flex-end">
-              <span onClick="{{ onContinue }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accentInk);font:600 26px 'Noto Sans Hebrew',sans-serif;padding:9px 16px;border-radius:11px">{{ t.cont }} <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:34px" data-flip>arrow_back</span></span>
+              <span onClick="{{ onContinue }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accentInk);font:600 20px 'Noto Sans Hebrew',sans-serif;padding:6px 13px;border-radius:10px">{{ t.cont }} <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:26px" data-flip>arrow_back</span></span>
             </div>
           </div>
         </div>
@@ -130,13 +145,14 @@
 
       <sc-if value="{{ isReading }}" hint-placeholder-val="{{ true }}">
         <div id="readtop" dir="{{ uiDir }}" style="position:absolute;top:50px;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:center;padding:0 14px 0 16px;background:var(--surface);border-bottom:1px solid var(--line);z-index:6">
-          <div style="position:absolute;inset-inline-start:16px;top:0;bottom:0;display:flex;align-items:center"><span onClick="{{ onBack }}" style="cursor:pointer;flex-shrink:0;font-family:'Material Symbols Outlined';font-weight:300;font-size:48px;color:var(--muted)" data-flip>chevron_right</span></div>
-          <div style="display:flex;align-items:center;gap:20px;flex-shrink:0">
-            <div dir="ltr" style="display:flex;align-items:center;gap:6px;background:var(--s2);border-radius:10px;padding:4px">
+          <div data-rback style="position:absolute;inset-inline-start:16px;top:0;bottom:0;display:flex;align-items:center"><span onClick="{{ onBack }}" style="cursor:pointer;flex-shrink:0;font-family:'Material Symbols Outlined';font-weight:300;font-size:48px;color:var(--muted)" data-flip>chevron_right</span></div>
+          <div data-rtools style="display:flex;align-items:center;gap:20px;flex-shrink:0">
+            <div data-trgrp dir="ltr" style="display:flex;align-items:center;gap:6px;background:var(--s2);border-radius:10px;padding:4px">
               <sc-for list="{{ trToggles }}" as="t" hint-placeholder-count="3"><div onClick="{{ t.on }}" title="{{ t.title }}" style="cursor:pointer;padding:5px 12px;border-radius:7px;background:{{ t.bg }};font:600 21px 'Noto Sans Hebrew',sans-serif;color:{{ t.fg }};white-space:nowrap">{{ t.label }}</div></sc-for>
             </div>
             <sc-if value="{{ rIsOT }}" hint-placeholder-val="{{ true }}"><div onClick="{{ onToggleTaamim }}" style="cursor:pointer;display:flex;align-items:center;gap:6px;background:var(--s2);border-radius:9px;padding:5px 10px"><span style="font:600 24px 'Noto Sans Hebrew',sans-serif;color:{{ taamimFg }}">{{ t.taamimShort }}</span><span style="width:7px;height:7px;border-radius:50%;background:{{ taamimDot }}"></span></div></sc-if>
-            <div style="display:flex;align-items:center;gap:11px;background:var(--s2);border-radius:9px;padding:3px 12px"><span onClick="{{ onFontDown }}" style="cursor:pointer;font:600 26px 'Noto Sans Hebrew',sans-serif;color:var(--text2)">{{ t.fontDn }}</span><span style="width:1px;height:15px;background:var(--line)"></span><span onClick="{{ onFontUp }}" style="cursor:pointer;font:700 38px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.fontUp }}</span></div>
+            <div style="display:flex;align-items:center;gap:11px;background:var(--s2);border-radius:9px;padding:3px 12px"><span onClick="{{ onFontDown }}" style="cursor:pointer;font:600 26px 'Noto Sans Hebrew',sans-serif;color:var(--text2)">{{ t.fontDn }}</span><span style="width:1px;height:15px;background:var(--line)"></span><span data-fup onClick="{{ onFontUp }}" style="cursor:pointer;font:700 38px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.fontUp }}</span></div>
+            <span data-ico onClick="{{ onOpenSettings }}" style="cursor:pointer;font-family:'Material Symbols Outlined';font-weight:300;font-size:36px;color:var(--muted)" style-hover="color:var(--accent)">settings</span>
           </div>
         </div>
         <div id="readbody" data-multi="{{ rMulti }}" style="position:absolute;top:126px;left:0;right:0;bottom:84px;overflow-y:auto;padding:18px 20px 30px">
@@ -365,9 +381,10 @@ class Component extends DCLogic {
     try{ const th=JSON.parse(localStorage.getItem('hb_theme')||'null'); if(th){ this.setState({light:!!th.light,theme:th.theme||'normal'}); } }catch(e){}
     try{ const vw=JSON.parse(localStorage.getItem('hb_view')||'null'); if(vw) this.setState({numDigits:!!vw.numDigits, cols:(()=>{const c={he:true,kjv:false,bsb:false,...(vw.cols||{})}; if(c.he&&c.kjv&&c.bsb) c.bsb=false; return c;})()}); }catch(e){}
     try{ const lg=localStorage.getItem('hb_lang'); if(lg==='en'||lg==='he') this.setState({lang:lg}); }catch(e){}
+    try{ const ql=new URLSearchParams(location.search).get('lang'); if(ql==='en'||ql==='he'){ this.setState({lang:ql}); document.documentElement.lang=ql; } }catch(e){}
     this.applyThemeColor();
     this.startUsageTimer();
-    this._rs=()=>this.forceUpdate(); window.addEventListener('resize', this._rs);
+    this._rs=()=>{ this.oneColMobile(); this.forceUpdate(); }; setTimeout(()=>this.oneColMobile(),0); window.addEventListener('resize', this._rs);
     this.loadAds(); this._adT=setInterval(()=>this.setState(s=>({adIdx:s.adIdx+1})),15000);
   }
   I18N = {
@@ -407,7 +424,8 @@ class Component extends DCLogic {
   }
   edits(){ if(this._edT && Date.now()-this._edT<1500) return this._ed; this._edT=Date.now(); try{ this._ed=JSON.parse(localStorage.getItem('hb_edits')||'{}'); }catch(e){ this._ed={}; } return this._ed; }
   persistView(){ try{ localStorage.setItem('hb_view', JSON.stringify({numDigits:this.state.numDigits,cols:this.state.cols})); }catch(e){} }
-  toggleCol(k){ this.setState(s=>{ const c={...s.cols,[k]:!s.cols[k]}; if(!c.he&&!c.kjv&&!c.bsb) return null; let ord=(this._colOrder||['he','kjv','bsb'].filter(x=>s.cols[x])).filter(x=>x!==k&&c[x]); if(c[k]) ord.push(k); while(ord.length>2){ c[ord.shift()]=false; } this._colOrder=ord; return {cols:c}; }, ()=>this.persistView()); }
+  oneColMobile(){ if(this.isWide()) return; const c=this.state.cols||{}; const on=['he','kjv','bsb'].filter(x=>c[x]); if(on.length>1){ const keep=on[on.length-1]; this._colOrder=[keep]; this.setState({cols:{he:false,kjv:false,bsb:false,[keep]:true}}); } }
+  toggleCol(k){ if(!this.isWide()){ this._colOrder=[k]; this.setState({cols:{he:false,kjv:false,bsb:false,[k]:true}},()=>this.persistView()); return; } this.setState(s=>{ const c={...s.cols,[k]:!s.cols[k]}; if(!c.he&&!c.kjv&&!c.bsb) return null; let ord=(this._colOrder||['he','kjv','bsb'].filter(x=>s.cols[x])).filter(x=>x!==k&&c[x]); if(c[k]) ord.push(k); while(ord.length>2){ c[ord.shift()]=false; } this._colOrder=ord; return {cols:c}; }, ()=>this.persistView()); }
   persistTheme(){ try{ localStorage.setItem('hb_theme', JSON.stringify({light:this.state.light,theme:this.state.theme})); }catch(e){} }
   setTheme(t){ this.setState({theme:t,light:false},()=>{this.applyThemeColor();this.persistTheme();}); }
   ratePlatform(){ return /iphone|ipad|ipod/i.test(navigator.userAgent||'')?'apple':'google'; }
@@ -574,6 +592,7 @@ class Component extends DCLogic {
       dailyRef:this.bookHe(plan.b)+' · '+(plan.b==='psalms'?t.psalm:t.perek)+' '+this.chapBig(plan.c), dailySnippet:snippet, snipDir:st.lang==='en'?'ltr':'rtl', dailyMeta:t.mins+' · '+planCh.length+' '+t.verses,
       onOpenDaily:()=>{ this.loadText(plan.b); this.setState({book:plan.b,chapter:plan.c,screen:'reading',sheet:null,bmAdd:false}); },
       contRef:this.bookHe(cont.book)+' · '+t.perek+' '+this.chapBig(cont.chapter), contPctW:Math.round(cont.chapter/contTotal*100)+'%', contInfo:t.chapter+' '+this.chapLbl(cont.chapter)+' '+t.of+' '+contTotal,
+      onOpenSettings:()=>this.setState({screen:'settings',sheet:null,bmAdd:false}),
       onContinue:()=>{ this.loadText(cont.book); this.setState({book:cont.book,chapter:cont.chapter,screen:'reading',bmAdd:false}); },
       libTabs, libRows,
       rBookHe:this.bookHe(st.book), rBookId:st.book, rChapHe:this.chapBig(st.chapter), rChapLabel:this.chapLbl(st.chapter), onGoHome:()=>this.setState({screen:'home',bmAdd:false}), rIsOT:this.isOT(st.book), rHasText:hasText, rNoText:!hasText,
