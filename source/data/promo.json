@@ -2,12 +2,41 @@
   "he": [
     {
       "img": "media/p-he-1-1790575303875.jpg",
+      "link": "https://eitanbar.co.il/book-signup/"
+    },
+    {
+      "img": "media/p-he-2-1790600891035.jpg",
       "link": "https://eitanbar.co.il/%d7%98%d7%95%d7%a4%d7%a1-%d7%94%d7%a8%d7%a9%d7%9e%d7%94-%d7%9b%d7%93%d7%99-%d7%9c%d7%93%d7%a2%d7%aa-%d7%a8%d7%90%d7%a9%d7%95%d7%a0%d7%99%d7%9d-%d7%9b%d7%a9%d7%a1%d7%a4%d7%a8-%d7%99%d7%95%d7%a6%d7%90/"
     },
     {
-      "img": "media/p-he-2-1790575305376.jpg",
-      "link": "https://eitanbar.co.il/%d7%98%d7%95%d7%a4%d7%a1-%d7%94%d7%a8%d7%a9%d7%9e%d7%94-%d7%9b%d7%93%d7%99-%d7%9c%d7%93%d7%a2%d7%aa-%d7%a8%d7%90%d7%a9%d7%95%d7%a0%d7%99%d7%9d-%d7%9b%d7%a9%d7%a1%d7%a4%d7%a8-%d7%99%d7%95%d7%a6%d7%90/"
+      "img": "media/p-he-3-1790600892659.jpg",
+      "link": "https://eitanbar.co.il/book-signup/"
+    },
+    {
+      "img": "media/p-he-4-1790600894312.jpg",
+      "link": "https://eitanbar.co.il/book-signup/"
     }
   ],
-  "en": []
+  "en": [
+    {
+      "img": "media/p-en-1-1790600895941.jpg",
+      "link": "https://www.amazon.com/dp/B0H1JKDC8Y"
+    },
+    {
+      "img": "media/p-en-2-1790600898168.jpg",
+      "link": "https://www.amazon.com/dp/B0CC34X44M"
+    },
+    {
+      "img": "media/p-en-3-1790600899698.jpg",
+      "link": "https://www.amazon.com/dp/B0CFCY4R33"
+    },
+    {
+      "img": "media/p-en-4-1790600901104.jpg",
+      "link": "https://www.amazon.com/dp/B0F1HRKNJM"
+    },
+    {
+      "img": "media/p-en-5-1790600903064.jpg",
+      "link": "https://www.amazon.com/HELL/dp/B0CDC4CJTC"
+    }
+  ]
 }
