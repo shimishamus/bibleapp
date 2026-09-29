@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<meta name="theme-color" content="#f3e7d7">
+<meta name="theme-color" content="#121519">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,7 +23,7 @@
 <link rel="apple-touch-icon" href="app-logo.png">
 <link rel="icon" type="image/png" href="app-logo.png">
 <style>
-  body{margin:0;font-family:'Noto Sans Hebrew',sans-serif;background:#f3e7d7;}
+  body{margin:0;font-family:'Noto Sans Hebrew',sans-serif;background:#121519;}
   *{box-sizing:border-box;}
   @font-face{font-family:'Narkissim';src:url('fonts/Narkissim-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
   @font-face{font-family:'Narkissim';src:url('fonts/Narkissim-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap;}
@@ -61,6 +61,8 @@
     #nav [data-navi]{gap:1px!important;}
     #nav [data-navi]>span:first-child{font-size:32px!important;}
     #nav [data-navi]>span:last-child{font-size:14px!important;}
+    [data-greet]{font-size:clamp(28px,9vw,54px)!important;}
+    [data-uilang="en"] [data-hcard]{font-size:21px!important;line-height:1.25;}
   }
   /* Desktop / embedded: fill the full width instead of a phone-sized column */
   @media (min-width:760px){
@@ -108,16 +110,16 @@
       <div data-chrome style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#000;border-radius:16px;z-index:45"></div>
 
       <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
-        <div data-screentop style="position:absolute;top:50px;left:0;right:0;bottom:0;overflow-y:auto;padding:20px 20px 74px">
-          <div style="margin-bottom:20px"><div style="font:600 54px 'Noto Sans Hebrew',sans-serif;color:var(--text);line-height:1.2">{{ greeting }}</div></div>
+        <div data-screentop data-uilang="{{ uiLang }}" style="position:absolute;top:50px;left:0;right:0;bottom:0;overflow-y:auto;padding:20px 20px 74px">
+          <div style="margin-bottom:20px"><div data-greet style="font:600 54px 'Noto Sans Hebrew',sans-serif;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ greeting }}</div></div>
           <div style="display:flex;gap:12px;margin-bottom:22px">
             <div onClick="{{ onOpenTanakh }}" style="cursor:pointer;flex:1;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;align-items:center;gap:9px">
               <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:45px;color:var(--accent)">menu_book</span>
-              <span style="font:600 32px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.tanakh }}</span>
+              <span data-hcard style="font:600 32px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.tanakh }}</span>
             </div>
             <div onClick="{{ onOpenNT }}" style="cursor:pointer;flex:1;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;align-items:center;gap:9px">
               <span style="font-family:'Material Symbols Outlined';font-weight:300;font-size:45px;color:var(--accent)">auto_stories</span>
-              <span style="font:600 32px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.nt }}</span>
+              <span data-hcard style="font:600 32px 'Noto Sans Hebrew',sans-serif;color:var(--text)">{{ t.nt }}</span>
             </div>
           </div>
           <div style="background:var(--dailyCard);border:1px solid var(--dailyBorder);border-radius:16px;padding:16px 20px;margin-bottom:18px">
@@ -393,7 +395,7 @@ class Component extends DCLogic {
   I18N = {
     he:{tanakh:'תנ״ך',nt:'הברית החדשה',contReading:'המשך קריאה',cont:'המשך',daily:'הקריאה היומית',readNow:'קרא עכשיו',library:'ספרייה',chapter:'פרק',taamimShort:'טעמים',fontDn:'א-',fontUp:'א+',noTextA:'הטקסט של',noTextB:'עדיין לא נוסף',addToFile:'הוסיפו אותו לקובץ',bmColor:'צבע הסימנייה',removeBm:'הסר סימנייה',searchPh:'חפש מילה או ביטוי',broad:'חיפוש נרחב',broadSub:'כולל מילים שהביטוי מופיע בתוכן',noResults:'לא נמצאו תוצאות',recent:'חיפושים אחרונים',settings:'הגדרות',close:'סגור',display:'תצוגה',textSize:'גודל הטקסט',aSmall:'א',taamim:'טעמי המקרא',taamimSub:'בטקסט התנ״ך בלבד',serif:'כתב נרקיסים',serifSub:'גופן עברי קלאסי',digits:'מספרי פסוקים בספרות',digitsSub:'1, 2, 3 במקום א, ב, ג',lightMode:'מצב בהיר',lightSub:'רקע לבן במקום כהה',theme:'ערכת נושא',about:'אודות',srcOT:'מקור התנ״ך',srcOTv:'נוסח המסורה',srcNT:'מקור הברית החדשה',srcNTv:'תרגום דעליטש*',srcKJV:'תרגום אנגלי · KJV',srcKJVv:'King James Version, 1769',srcBSB:'תרגום אנגלי · BSB',srcBSBv:'Berean Standard Bible',footnote:'* לברית החדשה תרגומים רבים בעברית. אפליקציה זו מתעדפת את תרגום דעליטש המשתמש בעברית מקראית ונחשב לתרגום העברי הנאמן ביותר לכתבי הברית החדשה המקוריים. שני התרגומים לאנגלית (KJV ו‑BSB) הם בנחלת הכלל.',admin:'ניהול',adAlt:'פרסומת',bookmarks:'סימניות',bmEmpty:'אין סימניות עדיין',bmEmptySub:'בזמן הקריאה לחצו על הסימנייה למטה כדי לשמור',rateQ:'נהנים מהאפליקציה?',rateSub:'דירוג קצר עוזר לנו מאוד ולוקח רק רגע.',later:'אחר כך',railHead:'ספרי התנ״ך והברית החדשה',
       nav:['בית','ספרייה','חיפוש','סימניות','הגדרות'],sec:{torah:'תורה',neviim:'נביאים',ketuvim:'כתובים',nt:'הברית החדשה'},gospels:'הבשורות',epistles:'האגרות',chapters:'פרקים',mins:'5 דקות',verses:'פסוקים',of:'מתוך',loadingSearch:'טוען את כל הספרים לחיפוש…',results:'תוצאות · בכל הספרים',byTime:'לפי זמן',byBook:'לפי ספר',themes:['רגיל','קרם','סתיו'],themeSubs:['ערכת ברירת המחדל','ערכת צבעים קרמית במיוחד','ערכת צבעים גרפיט'],rateBtn:'דרג את האפליקציה',chapPicker:'פרקים',bookPicker:'בחרו ספר',hebrew:'עברית',psalm:'מִזְמוֹר',perek:'פֶּרֶק'},
-    en:{tanakh:'Old Testament',nt:'New Testament',contReading:'Continue reading',cont:'Continue',daily:'Daily reading',readNow:'Read now',library:'Library',chapter:'Chapter',taamimShort:'Accents',fontDn:'A-',fontUp:'A+',noTextA:'The text of',noTextB:'has not been added yet',addToFile:'Add it to the file',bmColor:'Bookmark color',removeBm:'Remove bookmark',searchPh:'Search a Hebrew word or phrase',broad:'Broad search',broadSub:'Includes words that contain the phrase',noResults:'No results',recent:'Recent searches',settings:'Settings',close:'Close',display:'Display',textSize:'Text size',aSmall:'A',taamim:'Cantillation marks',taamimSub:'Hebrew Old Testament only',serif:'Narkissim typeface',serifSub:'Classic Hebrew typeface',digits:'Verse numbers as digits',digitsSub:'1, 2, 3 instead of א, ב, ג',lightMode:'Light mode',lightSub:'White background instead of dark',theme:'Theme',about:'About',srcOT:'Old Testament source',srcOTv:'Masoretic Text',srcNT:'New Testament source',srcNTv:'Delitzsch translation',srcKJV:'English · KJV',srcKJVv:'King James Version, 1769',srcBSB:'English · BSB',srcBSBv:'Berean Standard Bible',footnote:'* There are many Hebrew translations of the New Testament. This app uses the Delitzsch translation, which is written in Biblical Hebrew and regarded as the Hebrew translation most faithful to the original New Testament texts. Both English translations (KJV and BSB) are in the public domain.',admin:'Admin',adAlt:'Advertisement',bookmarks:'Bookmarks',bmEmpty:'No bookmarks yet',bmEmptySub:'While reading, tap the bookmark below to save',rateQ:'Enjoying the app?',rateSub:'A quick rating helps us a lot and only takes a moment.',later:'Later',railHead:'The Old & New Testament',
+    en:{tanakh:'Hebrew Scriptures',nt:'New Testament',contReading:'Continue reading',cont:'Continue',daily:'Daily reading',readNow:'Read now',library:'Library',chapter:'Chapter',taamimShort:'Accents',fontDn:'A-',fontUp:'A+',noTextA:'The text of',noTextB:'has not been added yet',addToFile:'Add it to the file',bmColor:'Bookmark color',removeBm:'Remove bookmark',searchPh:'Search a Hebrew word or phrase',broad:'Broad search',broadSub:'Includes words that contain the phrase',noResults:'No results',recent:'Recent searches',settings:'Settings',close:'Close',display:'Display',textSize:'Text size',aSmall:'A',taamim:'Cantillation marks',taamimSub:'Hebrew Old Testament only',serif:'Narkissim typeface',serifSub:'Classic Hebrew typeface',digits:'Verse numbers as digits',digitsSub:'1, 2, 3 instead of א, ב, ג',lightMode:'Light mode',lightSub:'White background instead of dark',theme:'Theme',about:'About',srcOT:'Old Testament source',srcOTv:'Masoretic Text',srcNT:'New Testament source',srcNTv:'Delitzsch translation',srcKJV:'English · KJV',srcKJVv:'King James Version, 1769',srcBSB:'English · BSB',srcBSBv:'Berean Standard Bible',footnote:'* There are many Hebrew translations of the New Testament. This app uses the Delitzsch translation, which is written in Biblical Hebrew and regarded as the Hebrew translation most faithful to the original New Testament texts. Both English translations (KJV and BSB) are in the public domain.',admin:'Admin',adAlt:'Advertisement',bookmarks:'Bookmarks',bmEmpty:'No bookmarks yet',bmEmptySub:'While reading, tap the bookmark below to save',rateQ:'Enjoying the app?',rateSub:'A quick rating helps us a lot and only takes a moment.',later:'Later',railHead:'The Old & New Testament',
       nav:['Home','Library','Search','Bookmarks','Settings'],sec:{torah:'Torah',neviim:'Prophets',ketuvim:'Writings',nt:'New Testament'},gospels:'Gospels',epistles:'Epistles',chapters:'chapters',mins:'5 min',verses:'verses',of:'of',loadingSearch:'Loading all books for search…',results:'results · all books',byTime:'By date',byBook:'By book',themes:['Default','Cream','Autumn'],themeSubs:['Default color scheme','Warm cream color scheme','Graphite color scheme'],rateBtn:'Rate the app',chapPicker:'Chapters',bookPicker:'Choose a book',hebrew:'Hebrew',psalm:'Psalm',perek:'Chapter'}
   };
   BOOK_EN = {genesis:'Genesis',exodus:'Exodus',leviticus:'Leviticus',numbers:'Numbers',deuteronomy:'Deuteronomy',joshua:'Joshua',judges:'Judges',samuel1:'1 Samuel',samuel2:'2 Samuel',kings1:'1 Kings',kings2:'2 Kings',isaiah:'Isaiah',jeremiah:'Jeremiah',ezekiel:'Ezekiel',hosea:'Hosea',joel:'Joel',amos:'Amos',obadiah:'Obadiah',jonah:'Jonah',micah:'Micah',nahum:'Nahum',habakkuk:'Habakkuk',zephaniah:'Zephaniah',haggai:'Haggai',zechariah:'Zechariah',malachi:'Malachi',psalms:'Psalms',proverbs:'Proverbs',job:'Job',song:'Song of Songs',ruth:'Ruth',lamentations:'Lamentations',ecclesiastes:'Ecclesiastes',esther:'Esther',daniel:'Daniel',ezra:'Ezra',nehemiah:'Nehemiah',chron1:'1 Chronicles',chron2:'2 Chronicles',matthew:'Matthew',mark:'Mark',luke:'Luke',john:'John',acts:'Acts',romans:'Romans',cor1:'1 Corinthians',cor2:'2 Corinthians',gal:'Galatians',eph:'Ephesians',phil:'Philippians',col:'Colossians',thess1:'1 Thessalonians',thess2:'2 Thessalonians',tim1:'1 Timothy',tim2:'2 Timothy',titus:'Titus',philemon:'Philemon',heb:'Hebrews',james:'James',pet1:'1 Peter',pet2:'2 Peter',john1:'1 John',john2:'2 John',john3:'3 John',jude:'Jude',revelation:'Revelation'};
@@ -435,7 +437,7 @@ class Component extends DCLogic {
   rateNow(){ const u=this.ratePlatform()==='apple'?'https://apps.apple.com/':'https://play.google.com/store/apps'; try{window.open(u,'_blank');}catch(e){} try{localStorage.setItem('hb_rated','1');}catch(e){} this.setState({showRate:false}); }
   dismissRate(){ try{localStorage.setItem('hb_rated','1');}catch(e){} this.setState({showRate:false}); }
   startUsageTimer(){ if(this._ut)return; this._ut=setInterval(()=>{ try{ if(localStorage.getItem('hb_rated'))return; let m=(+(localStorage.getItem('hb_usage')||0))+0.5; localStorage.setItem('hb_usage',m); if(m>=60){ this.setState({showRate:true}); } }catch(e){} },30000); }
-  applyThemeColor(){ try{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement('meta'); m.setAttribute('name','theme-color'); document.head.appendChild(m); } m.setAttribute('content', this.state.light?'#f4f2ec':(this.state.theme==='cream'?'#f3e7d7':(this.state.theme==='winter'?'#202b2e':'#121519'))); }catch(e){} }
+  applyThemeColor(){ try{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement('meta'); m.setAttribute('name','theme-color'); document.head.appendChild(m); } const c=this.state.light?'#f4f2ec':(this.state.theme==='cream'?'#f3e7d7':(this.state.theme==='winter'?'#202b2e':'#121519')); m.setAttribute('content',c); document.documentElement.style.background=c; document.body.style.background=c; }catch(e){} }
   onCopy = (e)=>{
     if(this.state.screen!=='reading') return;
     const sel=window.getSelection(); if(!sel||sel.isCollapsed) return;
@@ -594,8 +596,8 @@ class Component extends DCLogic {
       onOpenTanakh:()=>this.setState({screen:'library',libTab:'torah'}), onOpenNT:()=>this.setState({screen:'library',libTab:'nt'}),
       dailyRef:this.bookHe(plan.b)+' · '+(plan.b==='psalms'?t.psalm:t.perek)+' '+this.chapBig(plan.c), dailySnippet:snippet, snipDir:st.lang==='en'?'ltr':'rtl', dailyMeta:t.mins+' · '+planCh.length+' '+t.verses,
       onOpenDaily:()=>{ this.loadText(plan.b); this.setState({book:plan.b,chapter:plan.c,screen:'reading',sheet:null,bmAdd:false}); },
-      contRef:this.bookHe(cont.book)+' · '+t.perek+' '+this.chapBig(cont.chapter), contPctW:Math.round(cont.chapter/contTotal*100)+'%', contInfo:t.chapter+' '+this.chapLbl(cont.chapter)+' '+t.of+' '+contTotal,
-      uiHe:st.lang!=='en', onOpenSettings:()=>this.setState({screen:'settings',sheet:null,bmAdd:false}),
+      contRef:this.bookHe(cont.book)+' · '+(st.lang==='en'?'Ch.':t.perek)+' '+this.chapBig(cont.chapter), contPctW:Math.round(cont.chapter/contTotal*100)+'%', contInfo:t.chapter+' '+this.chapLbl(cont.chapter)+' '+t.of+' '+contTotal,
+      uiHe:st.lang!=='en', uiLang:st.lang==='en'?'en':'he', onOpenSettings:()=>this.setState({screen:'settings',sheet:null,bmAdd:false}),
       onContinue:()=>{ this.loadText(cont.book); this.setState({book:cont.book,chapter:cont.chapter,screen:'reading',bmAdd:false}); },
       libTabs, libRows,
       rBookHe:this.bookHe(st.book), rBookId:st.book, rChapHe:this.chapBig(st.chapter), rChapLabel:this.chapLbl(st.chapter), onGoHome:()=>this.setState({screen:'home',bmAdd:false}), rIsOT:this.isOT(st.book), rHasText:hasText, rNoText:!hasText,
